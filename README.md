@@ -82,4 +82,4 @@ $ cd larry
 $ ./start.sh
 ```
 
-The webapp should be running at, `127.0.0.1:8080`. The default admin password is `password`.
+The web app should be running at, `127.0.0.1:8080/larry/index`. The default admin password is `password`.
