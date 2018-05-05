@@ -2,9 +2,20 @@
 
 ![Alt Text](https://media.giphy.com/media/2Ylp4JECyTYRi/giphy.gif)
 
-# Installation
+# Table of contents
 
-## MacOS
+[Installation](#install)
+- [MacOS](#install-macos)
+- [Linux](#install-linux)
+
+[Setup](#setup)
+- [Testing](#testing)
+
+[Running the web app](#run)
+
+# <a name="install"><a/> Installation
+
+## <a name="install-macos"><a/> MacOS
 
 ### Using brew ([homepage](https://brew.sh/))
 
@@ -15,14 +26,14 @@ $ pip3 install python-pkcs11
 $ export PKCS11_LIBRARY_PATH=$(brew --prefix softhsm)/lib/softhsm/libsofthsm2.so
 ```
 
-## Linux
+## <a name="install-linux"><a/>Linux
 
 ```bash
 apt-get update
 apt-get install -y softhsm2 git-core build-essential cmake libssl-dev libseccomp-dev
 ```
 
-# Setup
+# <a name="setup"><a/>Setup
 
 Setup environment (*if not done already*):
 ```bash
@@ -30,12 +41,12 @@ Setup environment (*if not done already*):
 $ export PKCS11_LIBRARY_PATH=<PATH TO SOFTHSM LIBRARY>
 ```
 
-Create softhsm token:
+Create a softhsm token:
 ```bash
 $ softhsm2-util --init-token --slot 0 --label key --pin 1234 --so-pin 0000
 ```
 
-### Testing ([source](http://python-pkcs11.readthedocs.io/en/latest/index.html))
+## <a name="testing"><a/>Testing ([source](http://python-pkcs11.readthedocs.io/en/latest/index.html))
 
 ```bash
 import pkcs11
@@ -51,13 +62,24 @@ with token.open(user_pin='1234') as session:
     # Setup key
     key = session.generate_key(pkcs11.KeyType.AES, 256)
     iv = session.generate_random(128)  # AES blocks are fixed at 128 bits
-    
+
     # Encrypt/decrypt
     ciphertext = key.encrypt(b'INPUT DATA', mechanism_param=iv)
     plaintext = key.decrypt(ciphertext, mechanism_param=iv)
-    
+
     # Print the stuff!
     print("Cipher text: ", end="")
     print(ciphertext)
     print("Plain text: " + plaintext.decode("utf-8"))
 ```
+
+# <a name="run"><a/>Running the web app
+
+Clone and start web2py by doing,
+```bash
+$ git clone https://github.com/pjwoodard/larry
+$ cd larry
+$ ./start.sh
+```
+
+The webapp should be running at, `127.0.0.1:8080`. The default admin password is `password`.
