@@ -4,12 +4,8 @@
 # this file is released under public domain and you can use without limitations
 # -------------------------------------------------------------------------
 
-
-def starter():
-    return dict(message=T("Ayy lmao"))
-
 # ---- example index page ----
-def default():
+def index():
     response.flash = T("Hello World")
     return dict(message=T('Welcome to web2py!'))
 
