@@ -4,10 +4,20 @@
 {{end}}
 
 <div class="main_content">
-  <h1>
-    PAGE CONTENT GOES HERE :)
-    <small>Optional description</small>
+  <h1>Generate key
+    <small>use this form to generate cryptographic keys</small>
   </h1>
-  <h2>eh? EH? pretty good huh?</h2>
-  <h3>I spaced out a fat gap in layout.html where we can change what goes on the main content part of the page.</h3>
+  {{if keys is not None:}}
+
+  {{for key in keys:}}
+
+  <p>{{=key}}<p/>
+
+  {{pass}}
+
+  {{else:}}
+  <p>
+    No keys found.
+  <p/>
+  {{pass}}
 </div>
