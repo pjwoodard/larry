@@ -34,4 +34,9 @@ then
     cd $caller_path
 fi
 
-python $web2py_path/web2py.py -a 'password' -i 127.0.0.1 -p 8080 -e
+if [ -z "$PKCS11_LIBRARY_PATH" ]
+then 
+    echo "Warning, PKCS11_LIBRARY_PATH is undefined." >&2
+fi
+
+python3 $web2py_path/web2py.py -a 'password' -i 127.0.0.1 -p 8080 -e

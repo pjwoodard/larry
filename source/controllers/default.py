@@ -6,8 +6,35 @@
 
 # ---- example index page ----
 def index():
-    response.flash = T("Hello World")
-    return dict(message=T('Welcome to web2py!'))
+    # Managing keys
+    with Session() as session:
+        print('*** objects (before) ***')
+        session.list_all_objects()
+
+        tmp = session.generate_aes(256, 'tmp', store=False)
+        aes = session.generate_aes(256, 'aes')
+        rsa = session.generate_rsa(1024, 'rsa')
+        ec = session.generate_ec('prime192v2', 'ec')
+
+        print('*** objects (after) ***')
+        session.list_all_objects()
+
+        print('*** encrypt/decrypt ***')
+
+        iv = session.p11.generate_random(128)
+        ciphertext = tmp.encrypt(b'Hello, world!', mechanism_param=iv)
+        plaintext = tmp.decrypt(ciphertext, mechanism_param=iv)
+
+        print("Cipher text: ", ciphertext)
+        print("Plain text: ", plaintext.decode("utf-8"))
+
+        print('*** deleting ***')
+
+        session.destroy_by_label('aes')
+        session.destroy_by_label('rsa')
+        session.destroy_by_label('ec')
+
+    return dict(keys={1, 2, 3})
 
 # ---- API (example) -----
 @auth.requires_login()
