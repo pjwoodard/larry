@@ -46,7 +46,7 @@ class Session:
 
     def __init__(self,
                  lib_path=os.environ['PKCS11_LIBRARY_PATH'],
-                 token_label='key',
+                 token_label='larry',
                  pin='1234'):
         """
         Session constructor.

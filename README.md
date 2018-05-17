@@ -43,7 +43,7 @@ $ export PKCS11_LIBRARY_PATH=<PATH TO SOFTHSM LIBRARY>
 
 Create a softhsm token:
 ```bash
-$ softhsm2-util --init-token --slot 0 --label key --pin 1234 --so-pin 0000
+$ softhsm2-util --init-token --slot 0 --label larry --pin 1234 --so-pin 0000
 ```
 
 ## <a name="testing"><a/>Testing ([source](http://python-pkcs11.readthedocs.io/en/latest/index.html))
@@ -55,7 +55,7 @@ import os
 # Setup HSM
 # Note that, you can supply the full path of the library instead of using os.environ.
 lib = pkcs11.lib(os.environ['PKCS11_LIBRARY_PATH'])
-token = lib.get_token(token_label='key')
+token = lib.get_token(token_label='larry')
 
 # Test encryption/decryption
 with token.open(user_pin='1234') as session:
