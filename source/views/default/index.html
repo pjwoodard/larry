@@ -1,12 +1,22 @@
 {{extend 'layout.html'}}
 
 {{block head}}
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="{{=URL('static','js/vue.js')}}"></script>
+        <script> var some_variable = true;</script>
 {{end}}
 
 <div class="main_content">
-  <h1>Generate key
-    <small>use this form to generate cryptographic keys</small>
-  </h1>
+  <div id="vue-div" class="display:none">
+
+
+      <h4 v-if="test_boolean">Houston, we have default_index.js linkage</h4>
+
+
+  </div>
+
+
   {{if keys is not None:}}
 
   {{for key in keys:}}
@@ -21,3 +31,6 @@
   <p/>
   {{pass}}
 </div>
+
+
+<script src="{{=URL('static','js/default_index.js')}}"></script>
