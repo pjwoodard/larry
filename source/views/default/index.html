@@ -1,35 +1,9 @@
-{{extend 'layout.html'}}
-
-{{block head}}
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="{{=URL('static','js/vue.js')}}"></script>
-        <script> var some_variable = true;</script>
-{{end}}
+{{extend 'layout.html'}} 
 
 <div class="main_content">
   <div id="vue-div" class="display:none">
-
-
-      <h4 v-if="test_boolean">Houston, we have default_index.js linkage</h4>
-
-
+    <h4 v-if="!test_boolean">Houston, we have default_index.js linkage</h4>
   </div>
-
-
-  {{if keys is not None:}}
-
-  {{for key in keys:}}
-
-  <p>{{=key}}<p/>
-
-  {{pass}}
-
-  {{else:}}
-  <p>
-    No keys found.
-  <p/>
-  {{pass}}
 </div>
 
 
