@@ -1,10 +1,9 @@
-{{extend 'layout.html'}} 
+{{extend 'layout.html'}}
 
 <div class="main_content">
   <div id="vue-div" class="display:none">
     <h4 v-if="!test_boolean">Houston, we have default_index.js linkage</h4>
   </div>
 </div>
-
 
 <script src="{{=URL('static','js/default_index.js')}}"></script>
