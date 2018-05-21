@@ -1,35 +1,220 @@
-{{extend 'layout.html'}}
+<!DOCTYPE html>
 
-<h2>
-{{=T('Sign Up') if request.args(0) == 'register' else T('Log In') if request.args(0) == 'login' else T(request.args(0).replace('_',' ').title())}}
-</h2>
+{{if auth.user is not None:}}
 
-<div class="container">
-    <div class="row">
-        <div id="web2py_user_form" class="col-lg-6">
-        {{
-        if request.args(0)=='login':
-            if not 'register' in auth.settings.actions_disabled:
-                form.add_button(T('Sign Up'),URL(args='register', vars={'_next': request.vars._next} if request.vars._next else None),_class='btn btn-default')
-            pass
-            if not 'request_reset_password' in auth.settings.actions_disabled:
-                form.add_button(T('Lost Password'),URL(args='request_reset_password'),_class='btn btn-default')
-            pass
-        pass
-        =form
-        }}
-        </div>
-    </div>
-</div>
-
-
-{{block page_js}}
-<script>
-    jQuery("#web2py_user_form input:visible:enabled:first").focus();
-{{if request.args(0)=='register':}}
-    web2py_validate_entropy(jQuery('#auth_user_password'),100);
-{{elif request.args(0)=='change_password':}}
-    web2py_validate_entropy(jQuery('#no_table_new_password'),100);
+{{if request.args(0)=='login':}}
+{{redirect(URL('default', 'index'))}}
 {{pass}}
-</script>
-{{end page_js}}
+
+{{if request.args(0)=='request_reset_password':}}
+{{redirect(URL('default', 'user/change_password'))}}
+{{pass}}
+
+{{pass}}
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Larry</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="{{=URL('static','components/bootstrap/dist/css/bootstrap.min.css')}}" type="text/css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{=URL('static','components/font-awesome/css/font-awesome.min.css')}}" type="text/css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{=URL('static','dist/css/AdminLTE.min.css')}}" type="text/css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+         page. However, you can choose any other skin. Make sure you
+         apply the skin class to the body tag so the changes take effect. -->
+    <link rel="stylesheet" href="{{=URL('static','dist/css/skins/skin-blue.min.css')}}" type="text/css">
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <!-- jQuery 3 -->
+    <script src="{{=URL('static','components/jquery/dist/jquery.min.js')}}"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="{{=URL('static','components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{=URL('static','dist/js/adminlte.min.js')}}"></script>
+    <!-- Vue.js -->
+    <script src="{{=URL('static', 'js/vue.min.js')}}"></script>
+
+  </head>
+
+  <body class="hold-transition login-page">
+    <div class="login-box">
+      <div class="login-logo">
+        <b>Larry</b>HSM
+      </div>
+
+      <div id="web2py_user_form" class="login-box-body">
+        {{=form.custom.begin}}
+
+        <!-- Login page -->
+
+        {{if request.args(0)=='login':}}
+
+        <p class="login-box-msg">Sign in to start your session</p>
+
+        <div class="form-group">
+          {{=form.custom.label["email"]}}
+          {{=form.custom.widget.email}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.label["password"]}}
+          {{=form.custom.widget.password}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.submit}}
+
+          <span style="padding-left:10px">
+            {{=form.custom.widget.remember_me}}
+            {{=form.custom.label["remember_me"]}}
+          </span>
+        </div>
+
+        {{if not 'register' in auth.settings.actions_disabled:}}
+
+        <br/><a href="{{=URL(args='register')}}">Register</a>
+
+        {{pass}}
+
+        {{if not 'request_reset_password' in auth.settings.actions_disabled:}}
+
+        <br/><a href="{{=URL(args='request_reset_password')}}">Lost password</a>
+
+        {{pass}}
+
+        <!-- Register page -->
+
+        {{elif request.args(0)=='register':}}
+
+        <div class="form-group">
+          {{=form.custom.label["first_name"]}}
+          {{=form.custom.widget.first_name}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.label["last_name"]}}
+          {{=form.custom.widget.last_name}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.label["email"]}}
+          {{=form.custom.widget.email}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.label["password"]}}
+          {{=form.custom.widget.password}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.label["password_two"]}}
+          {{=form.custom.widget.password_two}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.submit}}
+        </div>
+
+        {{if not 'login' in auth.settings.actions_disabled:}}
+
+        <br/><a href="{{=URL(args='login')}}">Log in</a>
+
+        {{pass}}
+
+        <!-- Reset password page -->
+
+        {{elif request.args(0)=='request_reset_password':}}
+
+        <div class="form-group">
+          {{=form.custom.label["email"]}}
+          {{=form.custom.widget.email}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.submit}}
+        </div>
+
+        {{if not 'login' in auth.settings.actions_disabled:}}
+
+        <br/><a href="{{=URL(args='login')}}">Log in</a>
+
+        {{pass}}
+
+        {{if not 'register' in auth.settings.actions_disabled:}}
+
+        <br/><a href="{{=URL(args='register')}}">Register</a>
+
+        {{pass}}
+
+        <!-- Profile settings page -->
+
+        {{elif request.args(0)=='profile':}}
+
+        <div class="form-group">
+          {{=form.custom.label["first_name"]}}
+          {{=form.custom.widget.first_name}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.label["last_name"]}}
+          {{=form.custom.widget.last_name}}
+        </div>
+
+        <!-- Not displaying as a field for some reason -->
+        <!-- <div class="form-group"> -->
+        <!--   {{=form.custom.label["email"]}} -->
+        <!--   {{=form.custom.widget.email}} -->
+        <!-- </div> -->
+
+        <div class="form-group">
+          {{=form.custom.submit}}
+        </div>
+
+        <br/><a href="{{=URL(args='change_password')}}">Change password</a>
+
+        <br/><a href="{{=URL('default', 'index')}}">Return home</a>
+
+        <!-- Change password page -->
+
+        {{elif request.args(0)=='change_password':}}
+
+        <div class="form-group">
+          {{=form.custom.label["old_password"]}}
+          {{=form.custom.widget.old_password}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.label["new_password"]}}
+          {{=form.custom.widget.new_password}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.label["new_password2"]}}
+          {{=form.custom.widget.new_password2}}
+        </div>
+
+        <div class="form-group">
+          {{=form.custom.submit}}
+        </div>
+
+        <br/><a href="{{=URL(args='profile')}}">Profile</a>
+
+        <br/><a href="{{=URL('default', 'index')}}">Return home</a>
+
+        {{pass}}
+
+        {{=form.custom.end}}
+      </div>
+    </div>
+  </body>
+
+  {{block page_js}}
+
+</html>
