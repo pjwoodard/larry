@@ -52,161 +52,116 @@
       <div id="web2py_user_form" class="login-box-body">
         {{=form.custom.begin}}
 
+        {{form.custom.submit['_class']="btn btn-primary btn-flat"}}
+
         <!-- Login page -->
 
         {{if request.args(0)=='login':}}
 
         <p class="login-box-msg">Sign in to start your session</p>
 
-        <div class="form-group">
-          {{=form.custom.label["email"]}}
-          {{=form.custom.widget.email}}
-        </div>
+        {{form.custom.widget.email['_placeholder']="Email"}}
+        {{form.custom.widget.password['_placeholder']="Password"}}
 
-        <div class="form-group">
-          {{=form.custom.label["password"]}}
-          {{=form.custom.widget.password}}
-        </div>
-
+        <div class="form-group"> {{=form.custom.widget.email}} </div>
+        <div class="form-group"> {{=form.custom.widget.password}} </div>
         <div class="form-group">
           {{=form.custom.submit}}
-
-          <span style="padding-left:10px">
+          <div class="pull-right">
+            {{=form.custom.label['remember_me']}}
             {{=form.custom.widget.remember_me}}
-            {{=form.custom.label["remember_me"]}}
-          </span>
+          </div>
         </div>
 
-        {{if not 'register' in auth.settings.actions_disabled:}}
-
-        <br/><a href="{{=URL(args='register')}}">Register</a>
-
-        {{pass}}
-
-        {{if not 'request_reset_password' in auth.settings.actions_disabled:}}
-
-        <br/><a href="{{=URL(args='request_reset_password')}}">Lost password</a>
-
-        {{pass}}
+        <div class="form-group">
+          <br/><a href="{{=URL(args='register')}}">Register</a>
+          <br/><a href="{{=URL(args='request_reset_password')}}">Lost password</a>
+        </div>
 
         <!-- Register page -->
 
         {{elif request.args(0)=='register':}}
 
-        <div class="form-group">
-          {{=form.custom.label["first_name"]}}
-          {{=form.custom.widget.first_name}}
-        </div>
+        <p class="login-box-msg">Create an account to continue</p>
+
+        {{form.custom.widget.first_name['_placeholder']="First name"}}
+        {{form.custom.widget.last_name['_placeholder']="Last name"}}
+        {{form.custom.widget.email['_placeholder']="Email"}}
+        {{form.custom.widget.password['_placeholder']="Password"}}
+        {{form.custom.widget.password_two['_placeholder']="Confirm password"}}
+
+        <div class="form-group"> {{=form.custom.widget.first_name}} </div>
+        <div class="form-group"> {{=form.custom.widget.last_name}} </div>
+        <div class="form-group"> {{=form.custom.widget.email}} </div>
+        <div class="form-group"> {{=form.custom.widget.password}} </div>
+        <div class="form-group"> {{=form.custom.widget.password_two}} </div>
+        <div class="form-group"> {{=form.custom.submit}} </div>
 
         <div class="form-group">
-          {{=form.custom.label["last_name"]}}
-          {{=form.custom.widget.last_name}}
+          <br/><a href="{{=URL(args='login')}}">Log in</a>
         </div>
-
-        <div class="form-group">
-          {{=form.custom.label["email"]}}
-          {{=form.custom.widget.email}}
-        </div>
-
-        <div class="form-group">
-          {{=form.custom.label["password"]}}
-          {{=form.custom.widget.password}}
-        </div>
-
-        <div class="form-group">
-          {{=form.custom.label["password_two"]}}
-          {{=form.custom.widget.password_two}}
-        </div>
-
-        <div class="form-group">
-          {{=form.custom.submit}}
-        </div>
-
-        {{if not 'login' in auth.settings.actions_disabled:}}
-
-        <br/><a href="{{=URL(args='login')}}">Log in</a>
-
-        {{pass}}
 
         <!-- Reset password page -->
 
         {{elif request.args(0)=='request_reset_password':}}
 
-        <div class="form-group">
-          {{=form.custom.label["email"]}}
-          {{=form.custom.widget.email}}
-        </div>
+        <p class="login-box-msg">Lost password</p>
+
+        {{form.custom.widget.email['_placeholder']="Email"}}
+
+        <div class="form-group"> {{=form.custom.widget.email}} </div>
+        <div class="form-group"> {{=form.custom.submit}} </div>
 
         <div class="form-group">
-          {{=form.custom.submit}}
+          <br/><a href="{{=URL(args='login')}}">Log in</a>
+          <br/><a href="{{=URL(args='register')}}">Register</a>
         </div>
-
-        {{if not 'login' in auth.settings.actions_disabled:}}
-
-        <br/><a href="{{=URL(args='login')}}">Log in</a>
-
-        {{pass}}
-
-        {{if not 'register' in auth.settings.actions_disabled:}}
-
-        <br/><a href="{{=URL(args='register')}}">Register</a>
-
-        {{pass}}
 
         <!-- Profile settings page -->
 
         {{elif request.args(0)=='profile':}}
 
-        <div class="form-group">
-          {{=form.custom.label["first_name"]}}
-          {{=form.custom.widget.first_name}}
-        </div>
+        <p class="login-box-msg">Account information</p>
 
-        <div class="form-group">
-          {{=form.custom.label["last_name"]}}
-          {{=form.custom.widget.last_name}}
-        </div>
+        {{form.custom.widget.first_name['_placeholder']="First name"}}
+        {{form.custom.widget.last_name['_placeholder']="Last name"}}
 
+        {{=form.custom.label["first_name"]}}
+        <div class="form-group"> {{=form.custom.widget.first_name}} </div>
+        {{=form.custom.label["last_name"]}}
+        <div class="form-group"> {{=form.custom.widget.last_name}} </div>
         <!-- Not displaying as a field for some reason -->
-        <!-- <div class="form-group"> -->
-        <!--   {{=form.custom.label["email"]}} -->
-        <!--   {{=form.custom.widget.email}} -->
-        <!-- </div> -->
+        <!-- {{=form.custom.label["email"]}} -->
+        <!-- <div class="form-group"> {{=form.custom.widget.email}} </div> -->
+        <div class="form-group"> {{=form.custom.submit}} </div>
 
         <div class="form-group">
-          {{=form.custom.submit}}
+          <br/><a href="{{=URL(args='change_password')}}">Change password</a>
+          <br/><a href="{{=URL('default', 'index')}}">Return home</a>
         </div>
-
-        <br/><a href="{{=URL(args='change_password')}}">Change password</a>
-
-        <br/><a href="{{=URL('default', 'index')}}">Return home</a>
 
         <!-- Change password page -->
 
         {{elif request.args(0)=='change_password':}}
 
-        <div class="form-group">
-          {{=form.custom.label["old_password"]}}
-          {{=form.custom.widget.old_password}}
-        </div>
+        <p class="login-box-msg">Password change</p>
+
+        {{form.custom.widget.old_password['_placeholder']="Old password"}}
+        {{form.custom.widget.new_password['_placeholder']="New password"}}
+        {{form.custom.widget.new_password2['_placeholder']="Re-enter password"}}
+
+        {{=form.custom.label["old_password"]}}
+        <div class="form-group"> {{=form.custom.widget.old_password}} </div>
+        {{=form.custom.label["new_password"]}}
+        <div class="form-group"> {{=form.custom.widget.new_password}} </div>
+        {{=form.custom.label["new_password2"]}}
+        <div class="form-group"> {{=form.custom.widget.new_password2}} </div>
+        <div class="form-group"> {{=form.custom.submit}} </div>
 
         <div class="form-group">
-          {{=form.custom.label["new_password"]}}
-          {{=form.custom.widget.new_password}}
+          <br/><a href="{{=URL(args='profile')}}">Profile</a>
+          <br/><a href="{{=URL('default', 'index')}}">Return home</a>
         </div>
-
-        <div class="form-group">
-          {{=form.custom.label["new_password2"]}}
-          {{=form.custom.widget.new_password2}}
-        </div>
-
-        <div class="form-group">
-          {{=form.custom.submit}}
-        </div>
-
-        <br/><a href="{{=URL(args='profile')}}">Profile</a>
-
-        <br/><a href="{{=URL('default', 'index')}}">Return home</a>
 
         {{pass}}
 
