@@ -1,12 +1,16 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Generate key 
+        Generate key
     </h1>
 </section>
 
 <!-- Main content -->
 <section class="invoice">
-    <h1>BIG MUSTARD</h1>
+    <!-- /.form-group -->
+    <div class="form-group">
+        <label>Key Type</label>
+        <v-select v-model="selected" :options="['EC','RSA']"></v-select>
+    </div>
 </section>
 <!-- /.content -->
