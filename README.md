@@ -83,3 +83,10 @@ $ ./start.sh
 ```
 
 The web app should be running at, `127.0.0.1:8080/larry/default/index`. The default admin password is `password`.
+
+# <a name="credits"><a/>Credits
+This project made heavy use of the MIT licensed AdminLTE template for its good looks. 
+
+AdminLTE offers Admin Dashboard templates for websites and applications, both free and pair versions are available.
+
+More information about AdminLTE can be found at https://adminlte.io/
