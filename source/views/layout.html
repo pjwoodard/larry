@@ -59,7 +59,7 @@ desired effect
 -->
 
 <body class="hold-transition skin-blue sidebar-mini">
-  <div class="wrapper">
+  <div id="vue-div" class="wrapper display:none">
 
     <!-- Main Header -->
     <header class="main-header">
@@ -121,9 +121,9 @@ desired effect
         </div>
       </nav>
     </header>
+
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
-
       <!-- sidebar: style can be found in sidebar.less -->
       <section class="sidebar">
 
@@ -131,7 +131,7 @@ desired effect
         <ul class="sidebar-menu" data-widget="tree">
           <!-- Optionally, you can add icons to the links -->
           <li class="active">
-            <a href="#">
+            <a v-on:click="is_generating_key = !is_generating_key">
               <i class="fa fa-key"></i>
               <span>Generate key</span>
             </a>
@@ -163,10 +163,6 @@ desired effect
 
       <!-- Main content -->
       <section class="content container-fluid">
-        <!--------------------------
-        | Your Page Content Here |
-        -------------------------->
-
         {{include}}
 
       </section>
