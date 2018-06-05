@@ -11,17 +11,6 @@ var app = function () {
         }
     };
 
-     self.upload_complete = function (response) {
-        // This callback is called when the insertion of the track completes.
-        // The next step will be to get the track info (artist, album, etc).
-        // Notes the insertion id.
-        self.insertion_id = response.insertion_id;
-        // Moves to entering the track info: displays the form, rather than the uploader.
-        self.vue.is_adding_track_info = true;
-        self.vue.is_adding_track = false;
-        $("div#uploader_div").hide();
-    };
-
     Vue.component('v-select', VueSelect.VueSelect);
 
     // Complete as needed.
@@ -35,7 +24,6 @@ var app = function () {
         },
         methods: {
             generate_key_form: self.generate_key_form,
-            upload_complete: self.upload_complete,
         }
 
     });
