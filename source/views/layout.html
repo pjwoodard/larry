@@ -1,5 +1,5 @@
 <!DOCTYPE html> {{if auth.user is None:}} {{redirect(URL('default', 'user/login'))}} {{pass}}
-
+<link rel="icon" type="image/png" href="{{=URL('static','images/larry.png')}}"/>
 <html>
 
 <head>
@@ -8,6 +8,9 @@
   <title>Larry</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Dropzone -->
+  <link rel="stylesheet" href="{{=URL('static','css/dropzone.css')}}" type="text/css">
+
   <link rel="stylesheet" href="{{=URL('static','components/bootstrap/dist/css/bootstrap.min.css')}}" type="text/css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{=URL('static','components/font-awesome/css/font-awesome.min.css')}}" type="text/css">
@@ -29,7 +32,8 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@2.1.5/dist/vue.js"></script>
   <!-- Vue Select -->
   <script src="https://unpkg.com/vue-select@latest"></script>
-
+  <!-- Dropzone -->
+  <script src="{{=URL('static','js/dropzone.js')}}"></script>
 </head>
 <!--
 BODY TAG OPTIONS:
