@@ -1,21 +1,21 @@
 {{extend 'layout.html'}}
 
+<!-- Dropzone uploader. This unfortunately cannot go into the Vue div -->
 <form action="/file-upload"
       class="dropzone"
-      id="my-awesome-dropzone"></form>
+      id="my-awesome-dropzone">
+    <div class="dz-message" style="font-size:20px">
+        Drop files here to upload them, or click to select them.<br>
+        Ya bish<i class="fa fa-hand-pointer-o" style="font-size:4em"></i>
+
+    </div>
+</form>
 
 <div class="main_content">
     <div v-if="is_generating_key" class="generate_key_form">
       {{include 'default/generate_key.html'}} 
     </div>
-   <!-- Dropzone uploader. This unfortunately cannot go into the Vue div -->
-  <div id="uploader_div" style="display:none">
-    <form action="" class="dropzone dz-clickable" id="file-uploader">
-      <div class="dz-message">
-        Drop files here to upload them, or click to select them.
-      </div>
-    </form>
-  </div>
+
 
 </div>
 
