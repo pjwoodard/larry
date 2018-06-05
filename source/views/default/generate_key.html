@@ -10,7 +10,15 @@
     <!-- /.form-group -->
     <div class="form-group">
         <label>Key Type</label>
-        <v-select v-model="selected" :options="['EC','RSA']"></v-select>
+        <v-select label="type" v-model="key_type" :options="key_type_to_size_and_curves"></v-select>
+    </div>
+    <div class="form-group">
+        <label>Key Label</label>
+        <input type="text" class="form-control" placeholder="Enter ...">
+    </div>
+    <div v-if="available_size_or_curves" class="form-group">
+        <label>Key Size / Curve</label>
+        <v-select :options="available_size_or_curves" v-model="size_or_curve"></v-select>
     </div>
 </section>
 <!-- /.content -->

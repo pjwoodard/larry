@@ -20,12 +20,28 @@ var app = function () {
         unsafeDelimiters: ['!{', '}'],
         data: {
             is_generating_key: true,
-            selected: null,
+            key_type: null,
+            size_or_curve: null, 
+            key_type_to_size_and_curves: [
+                {
+                    type: "AES",
+                    sizes: ["128", "192", "256", "512"]
+                },
+                {
+                    type: "RSA",
+                    sizes: ["1024", "2048", "3072", "4096"]
+                }
+            ]
         },
         methods: {
             generate_key_form: self.generate_key_form
-        }
+        },
 
+        computed: {
+            available_size_or_curves() {
+                return this.key_type ? this.key_type.sizes : false
+            }
+        }
     });
 
     $("#vue-div").show();
