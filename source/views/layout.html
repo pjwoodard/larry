@@ -117,7 +117,7 @@ desired effect
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
           <!-- Optionally, you can add icons to the links -->
-          <li :class="{ active: is_generating_key }">
+          <li :class="{ active: key_generator.enabled }">
             <a v-on:click="generate_key_form()">
               <i class="fa fa-key"></i>
               <span>Generate key</span>
@@ -177,4 +177,5 @@ desired effect
 </html>
 
 <script src="{{=URL('static','js/sign_verify.js')}}"></script>
+<script src="{{=URL('static', 'js/generate_key.js')}}"></script>
 <script src="{{=URL('static','js/default_index.js')}}"></script>
