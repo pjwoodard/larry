@@ -1,4 +1,4 @@
-// This is the js for the default/index.html view.
+Vue.component('v-select', VueSelect.VueSelect);
 
 var app = function () {
 
@@ -6,12 +6,14 @@ var app = function () {
     Vue.config.silent = false; // show all warnings
 
     self.generate_key_form = function () {
-        if (self.vue.is_generating_key == false) {
-            self.vue.is_generating_key = true;
-        }
+        self.vue.is_generating_key = true;
+        self.vue.signer.enabled = false;
     };
 
-    Vue.component('v-select', VueSelect.VueSelect);
+    self.sign_verify_form = function () {
+        self.vue.signer.enabled = true;
+        self.vue.is_generating_key = false;
+    };
 
     // Complete as needed.
     self.vue = new Vue({
@@ -20,10 +22,12 @@ var app = function () {
         unsafeDelimiters: ['!{', '}'],
         data: {
             is_generating_key: true,
+            signer: new Signer(),
             selected: null,
         },
         methods: {
             generate_key_form: self.generate_key_form,
+            sign_verify_form: self.sign_verify_form
         }
 
     });

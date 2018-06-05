@@ -117,7 +117,7 @@ desired effect
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
           <!-- Optionally, you can add icons to the links -->
-          <li class="active">
+          <li :class="{ active: is_generating_key }">
             <a v-on:click="generate_key_form()">
               <i class="fa fa-key"></i>
               <span>Generate key</span>
@@ -129,8 +129,8 @@ desired effect
               <span>Encrypt / Decrypt</span>
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li :class="{ active: signer.enabled }">
+            <a v-on:click="sign_verify_form()">
               <i class="fa fa-pencil"></i>
               <span>Sign / Verify</span>
             </a>
@@ -176,4 +176,5 @@ desired effect
 </body>
 </html>
 
+<script src="{{=URL('static','js/sign_verify.js')}}"></script>
 <script src="{{=URL('static','js/default_index.js')}}"></script>
