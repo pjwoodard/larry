@@ -5,16 +5,6 @@ var app = function () {
     var self = {};
     Vue.config.silent = false; // show all warnings
 
-    self.generate_key_form = function () {
-        self.vue.signer.enabled = false;
-        self.vue.key_generator.enabled = true;
-    };
-
-    self.sign_verify_form = function () {
-        self.vue.signer.enabled = true;
-        self.vue.key_generator.enabled = false;
-    };
-
     // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
@@ -26,13 +16,13 @@ var app = function () {
             selected: null,
         },
         methods: {
-            generate_key_form: self.generate_key_form,
-            sign_verify_form: self.sign_verify_form
         },
 
         computed: {
             available_size_or_curves() {
-                return self.vue.key_generator.key_type ? self.vue.key_generator.key_type.sizes : false
+                return this.key_generator.key_type
+                    ? this.key_generator.key_type.sizes
+                    : false;
             }
         }
     });
