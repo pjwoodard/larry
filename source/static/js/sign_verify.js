@@ -63,7 +63,7 @@ function Signer()
         mechs = null;
         if (this.key_type != null)
         {
-            mechs = Object.keys(this.mech_map[this.key_type]);
+            mechs = Object.keys(this.mech_map[this.key_type]).slice();
             if (mechs != null)
             {
                 if (mechs.length <= 0)
@@ -74,7 +74,7 @@ function Signer()
                 {
                     this.sign_mech = mechs[0];
                 }
-                else
+                else if (this.sign_mech != null)
                 {
                     var index = mechs.indexOf(this.sign_mech);
                     if (index >= 0)
@@ -92,17 +92,21 @@ function Signer()
         mechs = null;
         if (this.key_type != null && this.sign_mech != null)
         {
-            mechs = this.mech_map[this.key_type][this.sign_mech];
-            if (mechs != null && mechs.length <= 0)
+            var tmp = this.mech_map[this.key_type][this.sign_mech];
+            if (tmp != null)
             {
-                mechs = null;
-            }
-            else if (this.dgst_mech != null)
-            {
-                var index = mechs.indexOf(this.dgst_mech);
-                if (index >= 0)
+                mechs = tmp.slice();
+                if (mechs.length <= 0)
                 {
-                    mechs.splice(index, 1);
+                    mechs = null;
+                }
+                else if (this.dgst_mech != null)
+                {
+                    var index = mechs.indexOf(this.dgst_mech);
+                    if (index >= 0)
+                    {
+                        mechs.splice(index, 1);
+                    }
                 }
             }
         }
