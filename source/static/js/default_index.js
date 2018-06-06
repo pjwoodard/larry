@@ -6,13 +6,13 @@ var app = function () {
     Vue.config.silent = false; // show all warnings
 
     self.generate_key_form = function () {
-        self.vue.is_generating_key = true;
         self.vue.signer.enabled = false;
+        self.vue.key_generator.enabled = true;
     };
 
     self.sign_verify_form = function () {
         self.vue.signer.enabled = true;
-        self.vue.is_generating_key = false;
+        self.vue.key_generator.enabled = false;
     };
 
     // Complete as needed.
@@ -21,15 +21,20 @@ var app = function () {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-            is_generating_key: true,
+            key_generator: new KeyGenerator(),
             signer: new Signer(),
             selected: null,
         },
         methods: {
             generate_key_form: self.generate_key_form,
             sign_verify_form: self.sign_verify_form
-        }
+        },
 
+        computed: {
+            available_size_or_curves() {
+                return self.vue.key_generator.key_type ? self.vue.key_generator.key_type.sizes : false
+            }
+        }
     });
 
     $("#vue-div").show();
