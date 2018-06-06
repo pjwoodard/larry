@@ -1,11 +1,22 @@
 {{extend 'layout.html'}}
 
-<div class="main_content">
-    <div v-if="key_generator.enabled" class="generate_key_form">
-      {{include 'default/generate_key.html'}}
-    </div>
+<section class="content">
+  <div class="row">
+    <!-- <div v-if="key_generator.enabled" class="generate_key_form"> -->
 
-    <div v-if="signer.enabled" class="sign_verify_form">
-      {{include 'default/sign_verify.html'}}
+    <div class="col-sm-6 col-md-6">
+      <section class="box">
+        {{include 'default/generate_key.html'}}
+      </section>
     </div>
+    <!-- </div> -->
+
+    <!-- <div v-if="signer.enabled" class="sign_verify_form"> -->
+    <div class="col-sm-6 col-md-6">
+      <section class="box">
+        {{include 'default/sign_verify.html'}}
+      </section>
+    </div>
+    <!-- </div> -->
+  </div>
 </div>
