@@ -25,14 +25,11 @@ function KeyGenerator() {
     ],
 
     // Member functions ------------------------------------------------
-
-    // this.key_types = function () {
-    //     return ["AES", "DSA", "EC", "RSA"];
-    // };
-
     this.generate = function () {
         console.log(this.key_label);
         console.log(this.key_type.type);
         console.log(this.key_size_or_curve);
+
+        // $.post()
     };
 }

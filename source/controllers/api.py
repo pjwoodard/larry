@@ -1,6 +1,9 @@
 @auth.requires_login()
 @auth.requires_signature()
 def generate_key():
+    with Session() as session:
+        session.generate_aes(256, "testies", "1")
+        session.list_all_objects()
     return response.json(dict(generate_key=None))
 
 @auth.requires_login()

@@ -1,27 +1,31 @@
+<script>
+    // var generate_key_url = "" 
+</script>
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>
-        Generate key
-    </h1>
+<h1>
+    Generate key
+</h1>
 </section>
 
 <!-- Main content -->
 <section class="invoice">
-    <!-- /.form-group -->
-    <div class="form-group">
-        <label>Key Label</label>
-        <input v-model="key_generator.key_label" type="text" class="form-control" placeholder="Enter ...">
-    </div>
-    <div class="form-group">
-        <label>Key Type</label>
-        <v-select label="type" v-model="key_generator.key_type" :options="key_generator.key_type_to_size_and_curves"></v-select>
-    </div>
-    <div v-if="available_size_or_curves" class="form-group">
-        <label>Key Size / Curve</label>
-        <v-select :options="available_size_or_curves" v-model="key_generator.key_size_or_curve"></v-select>
-    </div>
-    <button v-on:click="key_generator.generate()" type="submit" class="btn btn-primary btn-flat">
-        Generate
-    </button>
+<!-- /.form-group -->
+<div class="form-group">
+    <label>Key Label</label>
+    <input v-model="key_generator.key_label" type="text" class="form-control" placeholder="Enter ...">
+</div>
+<div class="form-group">
+    <label>Key Type</label>
+    <v-select label="type" v-model="key_generator.key_type" :options="key_generator.key_type_to_size_and_curves"></v-select>
+</div>
+<div v-if="available_size_or_curves" class="form-group">
+    <label>Key Size / Curve</label>
+    <v-select :options="available_size_or_curves" v-model="key_generator.key_size_or_curve"></v-select>
+</div>
+<button v-on:click="key_generator.generate()" type="submit" class="btn btn-primary btn-flat">
+    Generate
+</button>
 </section>
 <!-- /.content -->
