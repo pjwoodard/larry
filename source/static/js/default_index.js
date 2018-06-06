@@ -2,6 +2,9 @@ Vue.component('v-select', VueSelect.VueSelect);
 
 var app = function () {
 
+    $("div#myId").dropzone({ url: "/file/post" }).show();
+
+
     var self = {};
     Vue.config.silent = false; // show all warnings
 
@@ -29,7 +32,6 @@ var app = function () {
             generate_key_form: self.generate_key_form,
             sign_verify_form: self.sign_verify_form
         }
-
     });
 
     $("#vue-div").show();

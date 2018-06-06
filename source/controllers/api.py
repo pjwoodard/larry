@@ -15,6 +15,9 @@ def get_keys():
             p11_type=row.p11_type,
             p11_size=row.p11_size,
             p11_curve=row.p11_curve
-        )
+        ))
 
     return response.json(dict(keys=keys))
+
+def upload_file():
+    print("We've made it into the upload URL")
