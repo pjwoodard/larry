@@ -59,41 +59,44 @@
     <div id="vue-div" class="wrapper display:none">
       <header class="main-header">
         <nav class="navbar navbar-static-top" role="navigation">
-          <span class="navbar-brand"><b>Larry</b> HSM</span>
-          <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-              <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle"
-                   data-toggle="dropdown">
-                  <span class="hidden-xs">
-                    {{=auth.user.first_name}} {{=auth.user.last_name}}
-                  </span>
-                  <span style="padding-left:1em">
-                    <i class="fa fa-caret-down"></i>
-                  </span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="user-footer">
-                    <a href="{{=URL('default', 'user/profile')}}"
-                       class="btn btn-default btn-flat">
-                      Profile
-                    </a>
-                    <a href="{{=URL('default', 'user/logout')}}"
-                       class="btn btn-default btn-flat">
-                      Sign out
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+          <section class="container">
+            <!-- <span class="navbar-brand" style="padding-left:1.75em"> -->
+            <span class="navbar-brand"><b>Larry</b> HSM</span>
+            <div class="navbar-custom-menu">
+              <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                  <a href="#" class="dropdown-toggle"
+                     data-toggle="dropdown">
+                    <span class="hidden-xs">
+                      {{=auth.user.first_name}} {{=auth.user.last_name}}
+                    </span>
+                    <span style="padding-left:1em">
+                      <i class="fa fa-caret-down"></i>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li class="user-footer">
+                      <a href="{{=URL('default', 'user/profile')}}"
+                         class="btn btn-default btn-flat">
+                        Profile
+                      </a>
+                      <a href="{{=URL('default', 'user/logout')}}"
+                         class="btn btn-default btn-flat">
+                        Sign out
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </section>
         </nav>
       </header>
 
       <div class="content-wrapper">
         <section class="content-header">
         </section>
-        <section class="content">
+        <section class="container">
           {{include}}
         </section>
       </div>
