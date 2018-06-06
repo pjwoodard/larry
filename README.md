@@ -22,6 +22,8 @@
 ```bash
 $ brew install softhsm python
 $ pip3 install python-pkcs11
+$ brew install npm
+$ npm install vue2-dropzone
 # To make this permanent, add to .bash_profile or .bashrc
 $ export PKCS11_LIBRARY_PATH=$(brew --prefix softhsm)/lib/softhsm/libsofthsm2.so
 ```
