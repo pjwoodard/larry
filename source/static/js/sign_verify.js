@@ -51,7 +51,12 @@ function Signer()
     // Member functions ------------------------------------------------
 
     this.key_types = function() {
-        return [ "DSA", "EC", "RSA" ];
+        var types = [ "DSA", "EC", "RSA" ];
+        if (this.key_type != null)
+        {
+            types.splice(types.indexOf(this.key_type), 1);
+        }
+        return types;
     };
 
     this.sign_mechs = function() {
@@ -69,6 +74,14 @@ function Signer()
                 {
                     this.sign_mech = mechs[0];
                 }
+                else
+                {
+                    var index = mechs.indexOf(this.sign_mech);
+                    if (index >= 0)
+                    {
+                        mechs.splice(index, 1);
+                    }
+                }
             }
         }
 
@@ -83,6 +96,14 @@ function Signer()
             if (mechs != null && mechs.length <= 0)
             {
                 mechs = null;
+            }
+            else if (this.dgst_mech != null)
+            {
+                var index = mechs.indexOf(this.dgst_mech);
+                if (index >= 0)
+                {
+                    mechs.splice(index, 1);
+                }
             }
         }
 
