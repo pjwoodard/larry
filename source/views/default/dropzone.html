@@ -1,5 +1,24 @@
 
-<!-- Dropzone uploader. This unfortunately cannot go into the Vue div -->
+{{block head}}
+ <link rel="stylesheet" href="{{=URL('static','css/InHouseDropzone.css')}}" type="text/css">
+
+{{end}}
+
+<!-- In house dropzone uploader. This unfortunately cannot go into the Vue div -->
+<form class="box_upload" method="post" action="" enctype="multipart/form-data">
+  <div class="box__input">
+    <input class="center box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
+    <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+    <button class="box__button" type="submit">Upload</button>
+  </div>
+  <div class="box__uploading">Uploading&hellip;</div>
+  <div class="box__success">Done!</div>
+  <div class="box__error">Error! <span></span>.</div>
+
+</form>
+
+<!--
+
 <form action="/file-upload"
       class="dropzone"
       id="my-awesome-dropzone">
@@ -9,3 +28,4 @@
 
     </div>
 </form>
+-->
