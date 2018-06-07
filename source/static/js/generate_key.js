@@ -41,4 +41,22 @@ function KeyGenerator() {
             }
         );
     };
+
+    this.key_sizes = function () {
+        sizes = null;
+        if (this.key_type != null) {
+            sizes = this.key_type.sizes;
+            if (sizes != null) {
+                if (sizes.length <= 0) {
+                    sizes = null;
+                }
+                else if (!sizes.includes(this.key_size)) {
+                    this.key_size = sizes[0];
+                }
+            }
+        }
+
+        return sizes;
+    };
 }
+
