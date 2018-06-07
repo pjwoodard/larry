@@ -56,13 +56,13 @@
   </div>
 
   <div class="row">
-    <p v-for="key in user_keys">${key.p11_label}</p>
+    <div class="col-md-12">
+      <span v-for="key in user_keys"> ${key.p11_label} </span>
+    </div>
   </div>
 
   <div class="form-group">
     <label>Data <strong>(add drag and drop later)</strong></label>
-      {{include 'default/dropzone.html'}}
-      <!--
     <textarea
       class="form-control"
       placeholder="Enter data..."
@@ -70,7 +70,6 @@
       style="resize:vertical"
       v-model="signer.data">
     </textarea>
-    -->
   </div>
 
   <div class="box-footer">
