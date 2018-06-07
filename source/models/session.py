@@ -202,10 +202,10 @@ class Session:
         @raise ValueError: Raised when an invalid curve is passed.
         @return: The key.
         """
-        if str(curve) not in Session.__ec_curves:
+        if curve not in Session.__ec_curves:
             raise ValueError('Invalid EC curve.')
         parameters = self.p11.create_domain_parameters(KeyType.EC, {
-            Attribute.EC_PARAMS: encode_named_curve_parameters(str(curve))
+            Attribute.EC_PARAMS: encode_named_curve_parameters(curve)
         }, local=True)
         return parameters.generate_keypair(label=label,
                                            id=object_id,
