@@ -25,6 +25,11 @@ var app = function () {
         },
 
         computed: {
+            available_size_or_curves() {
+                return this.key_generator.key_type
+                    ? this.key_generator.key_type.sizes
+                    : false;
+            }
         }
     });
 
