@@ -6,7 +6,8 @@ var app = function () {
     Vue.config.silent = false; // show all warnings
 
     self.test_upload = function() {
-      console.log("Thing is did")
+
+      console.log(JSON.stringify(event.target.files[0]);
     };
 
     // Complete as needed.

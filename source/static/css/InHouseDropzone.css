@@ -19,3 +19,25 @@
 .box.is-dragover {
   background-color: grey;
 }
+
+.box.has-advanced-upload {
+  height: 100px;
+  border-radius: 10px;
+  border: 2px dashed rgb(63,140,188);
+  background-color: rgb(236,240,245);
+  outline-offset: -10px;
+}
+.box.has-advanced-upload .box__dragndrop {
+  display: inline;
+}
+
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+  display: none;
+}
+
+.box.is-dragover {
+  background-color: grey;
+}
