@@ -5,7 +5,7 @@ var app = function () {
     var self = {};
     Vue.config.silent = false; // show all warnings
 
-    self.test_upload = function() {
+    self.upload_file = function() {
       var passedFile = event.target.files[0];
       console.log(passedFile);
     };
@@ -21,7 +21,7 @@ var app = function () {
             selected: null,
         },
         methods: {
-            test_upload: self.test_upload,
+            upload_file: self.upload_file,
         },
 
         computed: {
