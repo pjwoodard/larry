@@ -1,5 +1,7 @@
 Vue.component('v-select', VueSelect.VueSelect);
 
+
+
 var app = function () {
 
     $("div#myId").dropzone({ url: "/file/post" }).show();
@@ -18,6 +20,15 @@ var app = function () {
         self.vue.is_generating_key = false;
     };
 
+
+    self.choose_file = function() {
+      console.log("In Choose File")
+    };
+
+    self.upload_file = function() {
+        console.log("In Upload File")
+    };
+
     // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
@@ -27,10 +38,16 @@ var app = function () {
             is_generating_key: true,
             signer: new Signer(),
             selected: null,
+
+            selected_price: null,
         },
         methods: {
             generate_key_form: self.generate_key_form,
-            sign_verify_form: self.sign_verify_form
+            sign_verify_form: self.sign_verify_form,
+
+            choose_file: self.choose_file,
+            upload_file: self.upload_file,
+
         }
     });
 
