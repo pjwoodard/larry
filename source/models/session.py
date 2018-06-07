@@ -26,6 +26,9 @@ class Session:
     __aes_sizes = { 128, 192, 256 }
     """AES key sizes."""
 
+    __dsa_sizes = { 1024, 2048, 3072 }
+    """DSA key sizes."""
+
     __rsa_sizes = { 1024, 1536, 2048, 4096 }
     """RSA key sizes."""
 
@@ -128,7 +131,7 @@ class Session:
 
         @param label: The label to match and delete.
         """
-        self.destroyby_by_template({Attribute.OBJECT_ID: object_id})
+        self.destroy_objects({Attribute.ID: object_id})
 
     # Key generation ---------------------------------------------------
 
@@ -144,10 +147,13 @@ class Session:
         """
         if size not in Session.__aes_sizes:
             raise ValueError('Invalid AES key size.')
+
         return self.p11.generate_key(KeyType.AES,
                                      size,
-                                     label=label,
-                                     id=object_id,
+                                     template={
+                                        Attribute.ID: object_id,
+                                        Attribute.LABEL: label,
+                                     },
                                      store=store)
 
     def generate_rsa(self, size, label, object_id='', store=True):
@@ -163,6 +169,24 @@ class Session:
         if size not in Session.__rsa_sizes:
             raise ValueError('Invalid RSA key size.')
         return self.p11.generate_keypair(KeyType.RSA,
+                                         size,
+                                         label=label,
+                                         id=object_id,
+                                         store=store)
+
+    def generate_dsa(self, size, label, object_id='', store=True):
+        """
+        Generates a DSA key.
+
+        @param size: The size of the key.
+        @param label: The label of the key.
+        @param object_id: The unique identifier of the key.
+        @raise ValueError: Raised when an invalid key size is passed.
+        @return: The key.
+        """
+        if size not in Session.__dsa_sizes:
+            raise ValueError('Invalid DSA key size.')
+        return self.p11.generate_keypair(KeyType.DSA,
                                          size,
                                          label=label,
                                          id=object_id,

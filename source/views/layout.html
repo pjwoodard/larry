@@ -1,119 +1,101 @@
 <!DOCTYPE html> {{if auth.user is None:}} {{redirect(URL('default', 'user/login'))}} {{pass}}
-<link rel="icon" type="image/png" href="{{=URL('static','images/larry.png')}}"/>
+<link rel="icon" type="image/png" href="{{=URL('static','images/larry.png')}}" />
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Larry</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Dropzone -->
-    <link rel="stylesheet" href="{{=URL('static','css/dropzone.css')}}" type="text/css">
 
-    <link rel="stylesheet" href="{{=URL('static','components/bootstrap/dist/css/bootstrap.min.css')}}" type="text/css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{=URL('static','components/font-awesome/css/font-awesome.min.css')}}" type="text/css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{=URL('static','dist/css/AdminLTE.min.css')}}" type="text/css">
-    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Larry</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Dropzone -->
+  <link rel="stylesheet" href="{{=URL('static','css/dropzone.css')}}" type="text/css">
+
+  <link rel="stylesheet" href="{{=URL('static','components/bootstrap/dist/css/bootstrap.min.css')}}" type="text/css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{=URL('static','components/font-awesome/css/font-awesome.min.css')}}" type="text/css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{=URL('static','dist/css/AdminLTE.min.css')}}" type="text/css">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
          page. However, you can choose any other skin. Make sure you
          apply the skin class to the body tag so the changes take effect. -->
-    <link rel="stylesheet" href="{{=URL('static','dist/css/skins/skin-blue.min.css')}}" type="text/css">
-    <!-- Google Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <!-- jQuery 3 -->
-    <script src="{{=URL('static','components/jquery/dist/jquery.min.js')}}"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="{{=URL('static','components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{=URL('static','dist/js/adminlte.min.js')}}"></script>
-    <!-- Vue.js -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.1.5/dist/vue.js"></script>
-    <!-- Vue Select -->
-    <script src="https://unpkg.com/vue-select@latest"></script>
-    <!-- Dropzone -->
-    <script src="{{=URL('static','js/dropzone.js')}}"></script>
+  <link rel="stylesheet" href="{{=URL('static','dist/css/skins/skin-blue.min.css')}}" type="text/css">
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- jQuery 3 -->
+  <script src="{{=URL('static','components/jquery/dist/jquery.min.js')}}"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src="{{=URL('static','components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+  <!-- AdminLTE App -->
+  <script src="{{=URL('static','dist/js/adminlte.min.js')}}"></script>
+  <!-- Vue.js -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.1.5/dist/vue.js"></script>
+  <!-- Vue Select -->
+  <script src="https://unpkg.com/vue-select@latest"></script>
+  <!-- Dropzone -->
+  <script src="{{=URL('static','js/dropzone.js')}}"></script>
+  <link rel="stylesheet" href="{{=URL('static','css/custom.css')}}" type="text/css">
+</head>
 
-    <link rel="stylesheet" href="{{=URL('static','css/custom.css')}}" type="text/css">
-  </head>
-  <!--
-      BODY TAG OPTIONS:
-      =================
-      Apply one or more of the following classes to get the
-      desired effect
-      |---------------------------------------------------------|
-      | SKINS         | skin-blue                               |
-      |               | skin-black                              |
-      |               | skin-purple                             |
-      |               | skin-yellow                             |
-      |               | skin-red                                |
-      |               | skin-green                              |
-      |---------------------------------------------------------|
-      |LAYOUT OPTIONS | fixed                                   |
-      |               | layout-boxed                            |
-      |               | layout-top-nav                          |
-      |               | sidebar-collapse                        |
-      |               | sidebar-mini                            |
-      |---------------------------------------------------------|
-    -->
+<!-- These have to go outside of the vue-div -->
+{{include 'default/api_urls.html'}}
 
-  <body class="hold-transition skin-blue layout-top-nav">
-    <div id="vue-div" class="wrapper display:none">
-      <header class="main-header">
-        <nav class="navbar navbar-static-top" role="navigation">
-          <section class="container">
-            <span class="navbar-brand"><b>Larry</b> HSM</span>
-            <div class="navbar-custom-menu">
-              <ul class="nav navbar-nav">
-                <li class="dropdown user user-menu">
-                  <a href="#" class="dropdown-toggle"
-                     data-toggle="dropdown">
-                    <span class="hidden-xs">
-                      {{=auth.user.first_name}} {{=auth.user.last_name}}
-                    </span>
-                    <span style="padding-left:1em">
-                      <i class="fa fa-caret-down"></i>
-                    </span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li class="user-footer">
-                      <a href="{{=URL('default', 'user/profile')}}"
-                         class="btn btn-default btn-flat">
-                        Profile
-                      </a>
-                      <a href="{{=URL('default', 'user/logout')}}"
-                         class="btn btn-default btn-flat">
-                        Sign out
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </section>
-        </nav>
-      </header>
-
-      <div class="content-wrapper">
-        <section class="content-header">
-        </section>
+<body class="hold-transition skin-blue layout-top-nav">
+  <div id="vue-div" class="wrapper display:none">
+    <header class="main-header">
+      <nav class="navbar navbar-static-top" role="navigation">
         <section class="container">
-          {{include}}
+          <span class="navbar-brand">
+            <b>Larry</b> HSM</span>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <span class="hidden-xs">
+                    {{=auth.user.first_name}} {{=auth.user.last_name}}
+                  </span>
+                  <span style="padding-left:1em">
+                    <i class="fa fa-caret-down"></i>
+                  </span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="user-footer">
+                    <a href="{{=URL('default', 'user/profile')}}" class="btn btn-default btn-flat">
+                      Profile
+                    </a>
+                    <a href="{{=URL('default', 'user/logout')}}" class="btn btn-default btn-flat">
+                      Sign out
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
         </section>
-      </div>
+      </nav>
+    </header>
 
-      <footer class="main-footer">
-        <strong>
-          Parker Bijan Matt &copy; 2018
-        </strong>
-        <div class="pull-right">
-          <strong>
-            <a href="https://adminlte.io/">AdminLTE Theme</a>
-          </strong>
-        </div>
-      </footer>
+    <div class="content-wrapper">
+      <section class="content-header">
+      </section>
+      <section class="container">
+        {{include}}
+      </section>
     </div>
-  </body>
+
+    <footer class="main-footer">
+      <strong>
+        Parker Bijan Matt &copy; 2018
+      </strong>
+      <div class="pull-right">
+        <strong>
+          <a href="https://adminlte.io/">AdminLTE Theme</a>
+        </strong>
+      </div>
+    </footer>
+  </div>
+</body>
+
 </html>
 
 <script src="{{=URL('static','js/sign_verify.js')}}"></script>
