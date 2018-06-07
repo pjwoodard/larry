@@ -8,8 +8,8 @@
       <div class="form-group">
         <label>Key</label>
         <v-select
-          v-model="signer.key_type"
-          :options="signer.key_types()">
+          v-model="signer.key"
+          :options="user_keys">
         </v-select>
       </div>
     </div>
@@ -17,7 +17,7 @@
     <div class="col-md-3">
       <div class="form-group">
         <label>Key type:</label>
-        <div v-if="signer.key_type">${signer.key_type}</div>
+        <div v-if="signer.key">${signer.key}</div>
         <div v-else>-</div>
       </div>
     </div>
@@ -25,7 +25,7 @@
     <div class="col-md-3">
       <div class="form-group">
         <label>Key size/curve:</label>
-        <div v-if="signer.key_type">${signer.key_type}</div>
+        <div v-if="signer.key">${signer.key}</div>
         <div v-else>-</div>
       </div>
     </div>
@@ -53,6 +53,10 @@
         </v-select>
       </div>
     </div>
+  </div>
+
+  <div class="row">
+    <p v-for="key in user_keys">${key.p11_label}</p>
   </div>
 
   <div class="form-group">

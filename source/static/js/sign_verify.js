@@ -5,7 +5,7 @@ function Signer()
     this.data = "";
     this.enabled = false;
 
-    this.key_type = null;
+    this.key = null;
     this.sign_mech = null;
     this.dgst_mech = null;
 

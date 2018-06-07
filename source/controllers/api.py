@@ -72,7 +72,7 @@ def decrypt():
 
 @auth.requires_login()
 @auth.requires_signature()
-def get_keys():
+def get_user_keys():
     if auth.user is None:
         redirect(URL('default', 'user/login'))
 
