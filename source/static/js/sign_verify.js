@@ -51,14 +51,19 @@ function Signer()
     // Member functions ------------------------------------------------
 
     this.key_types = function() {
-        return [ "DSA", "EC", "RSA" ];
+        var types = [ "DSA", "EC", "RSA" ];
+        if (this.key_type != null)
+        {
+            types.splice(types.indexOf(this.key_type), 1);
+        }
+        return types;
     };
 
     this.sign_mechs = function() {
         mechs = null;
         if (this.key_type != null)
         {
-            mechs = Object.keys(this.mech_map[this.key_type]);
+            mechs = Object.keys(this.mech_map[this.key_type]).slice();
             if (mechs != null)
             {
                 if (mechs.length <= 0)
@@ -68,6 +73,14 @@ function Signer()
                 else if (!mechs.includes(this.sign_mech))
                 {
                     this.sign_mech = mechs[0];
+                }
+                else if (this.sign_mech != null)
+                {
+                    var index = mechs.indexOf(this.sign_mech);
+                    if (index >= 0)
+                    {
+                        mechs.splice(index, 1);
+                    }
                 }
             }
         }
@@ -79,10 +92,22 @@ function Signer()
         mechs = null;
         if (this.key_type != null && this.sign_mech != null)
         {
-            mechs = this.mech_map[this.key_type][this.sign_mech];
-            if (mechs != null && mechs.length <= 0)
+            var tmp = this.mech_map[this.key_type][this.sign_mech];
+            if (tmp != null)
             {
-                mechs = null;
+                mechs = tmp.slice();
+                if (mechs.length <= 0)
+                {
+                    mechs = null;
+                }
+                else if (this.dgst_mech != null)
+                {
+                    var index = mechs.indexOf(this.dgst_mech);
+                    if (index >= 0)
+                    {
+                        mechs.splice(index, 1);
+                    }
+                }
             }
         }
 
