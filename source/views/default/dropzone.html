@@ -1,11 +1,13 @@
 
-<!-- Dropzone uploader. This unfortunately cannot go into the Vue div -->
-<form action="/file-upload"
-      class="dropzone"
-      id="my-awesome-dropzone">
-    <div class="dz-message" style="font-size:20px">
-        Drop files here to upload them, or click to select them.<br>
-        Ya bish<i class="fa fa-hand-pointer-o" style="font-size:4em"></i>
+{{block head}}
+ <link rel="stylesheet" href="{{=URL('static','css/InHouseDropzone.css')}}" type="text/css">
+{{end}}
 
-    </div>
+
+<!-- In house dropzone uploader. This unfortunately cannot go into the Vue div -->
+<form class="box_upload" method="post" action="" enctype="multipart/form-data">
+  <div class="center box__input">
+      <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
+      <input v-on:change="upload_file" style="display:none" class="box__file" type="file"id="file"/>
+  </div>
 </form>
