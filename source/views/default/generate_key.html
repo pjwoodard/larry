@@ -1,7 +1,3 @@
-<script>
-    // var generate_key_url = "" 
-</script>
-
 <!-- Content Header (Page header) -->
 <section class="box-header with-border">
   <b>Generate key</b>
@@ -20,7 +16,7 @@
     </div>
     <div v-if="available_size_or_curves" class="form-group">
         <label>Key Size / Curve</label>
-        <v-select :options="available_size_or_curves" v-model="key_generator.key_size_or_curve"></v-select>
+        <v-select :options="available_size_or_curves" v-model="key_generator.key_size"></v-select>
     </div>
     <button v-on:click="key_generator.generate()" type="submit" class="btn btn-primary btn-flat">
         Generate
