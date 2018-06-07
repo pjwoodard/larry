@@ -54,12 +54,6 @@ function KeyGenerator() {
                 else if (!sizes.includes(this.key_size)) {
                     this.key_size = sizes[0];
                 }
-                else if (this.key_size != null) {
-                    var index = sizes.indexOf(this.key_size);
-                    if (index > 0) {
-                        sizes.splice(index, 1);
-                    }
-                }
             }
         }
 
