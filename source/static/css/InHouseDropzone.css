@@ -1,0 +1,17 @@
+
+.box__input {
+    display: block;
+}
+
+.center {
+    text-align: center !important;
+    line-height: 100px !important;
+}
+
+.box_upload {
+  height: 100px;
+  border-radius: 10px;
+  border: 2px dashed rgb(63,140,188);
+  background-color: rgb(236,240,245);
+  outline-offset: -10px;
+}
