@@ -1,4 +1,11 @@
 <script>
+    var decrypt_url = "{{=URL('api', 'decrypt', user_signature=True)}}";
+    var destroy_key_url = "{{=URL('api', 'destroy_key', user_signature=True)}}";
+    var encrypt_url = "{{=URL('api', 'encrypt', user_signature=True)}}";
+    var get_keys_url = "{{=URL('api', 'get_keys', user_signature=True)}}";
     var generate_key_url = "{{=URL('api', 'generate_key', user_signature=True)}}";
-    // Add more urls here 
+    var sign_url = "{{=URL('api', 'sign', user_signature=True)}}";
+    var verify_url = "{{=URL('api', 'verify', user_signature=True)}}";
+
+    var destroy_everything_url = "{{=URL('api', 'destroy_everything', user_signature=True)}}";
 </script>

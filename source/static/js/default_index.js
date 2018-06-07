@@ -22,8 +22,10 @@ var app = function () {
         },
         methods: {
             upload_file: self.upload_file,
+            destroy_everything: function() {
+                $.post(destroy_everything_url, {});
+            },
         },
-
         computed: {
             available_size_or_curves() {
                 return this.key_generator.key_type
