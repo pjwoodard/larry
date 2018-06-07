@@ -12,11 +12,11 @@
     </div>
     <div class="form-group">
         <label>Key Type</label>
-        <v-select label="type" v-model="key_generator.key_type" :options="key_generator.key_type_to_size_and_curves"></v-select>
+        <v-select :options="key_generator.key_type_to_size_and_curves" label="type" v-model="key_generator.key_type"></v-select>
     </div>
-    <div v-if="available_size_or_curves" class="form-group">
+    <div v-if="key_generator.key_sizes() != null" class="form-group">
         <label>Key Size / Curve</label>
-        <v-select :options="available_size_or_curves" v-model="key_generator.key_size"></v-select>
+        <v-select :options="key_generator.key_sizes()" v-model="key_generator.key_size"></v-select>
     </div>
     <button v-on:click="key_generator.generate()" type="submit" class="btn btn-primary btn-flat">
         Generate
