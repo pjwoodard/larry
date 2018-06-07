@@ -5,6 +5,10 @@ var app = function () {
     var self = {};
     Vue.config.silent = false; // show all warnings
 
+    self.test_upload = function() {
+      console.log("Thing is did")
+    };
+
     // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
@@ -16,6 +20,7 @@ var app = function () {
             selected: null,
         },
         methods: {
+            test_upload: self.test_upload,
         },
 
         computed: {

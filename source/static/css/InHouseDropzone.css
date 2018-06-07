@@ -1,12 +1,11 @@
-.box__dragndrop,
-.box__uploading,
-.box__success,
-.box__error {
-  display: none;
-}
 
 .box__input {
     display: block;
+}
+
+.center {
+    text-align: center !important;
+    line-height: 100px !important;
 }
 
 .box_upload {
