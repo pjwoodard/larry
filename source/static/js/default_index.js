@@ -16,8 +16,7 @@ var app = function () {
             self.vue.labels = [];
             for (var i = 0; i < data.keys.length; i++)
             {
-                self.vue.user_keys.push(JSON.stringify(data.keys[i]));
-                self.vue.labels.push(data.keys[i].p11_label);
+                self.vue.user_keys.push(data.keys[i]);
             }
         });
     };
