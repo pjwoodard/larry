@@ -11,10 +11,11 @@ var app = function () {
     };
 
     self.get_user_keys = function() {
-        $.getJSON(get_user_keys_url, {}, function(data) {
+        $.get(get_user_keys_url, {}, function(data) {
             for (var i = 0; i < data.keys.length; i++)
             {
                 self.vue.user_keys.push(data.keys[i]);
+                self.vue.labels.push(data.keys[i].p11_label);
             }
         });
     };
@@ -28,7 +29,9 @@ var app = function () {
             key_generator: new KeyGenerator(),
             signer: new Signer(),
             user_keys: [],
+            labels: [],
             selected: null,
+
         },
         // watch: {
         //     user_keys: self.get_user_keys,
