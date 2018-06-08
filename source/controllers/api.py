@@ -18,14 +18,14 @@ def generate_key():
         }[request.vars.type]
 
         size_or_curve = request.vars.size if request.vars.type == 'EC' else int(request.vars.size)
-
+        key_id = None
         try:
             key = generate(
                 size_or_curve,
                 label=request.vars.label,
                 object_id=str(auth.user.id)
             )
-            db.user_keys.insert(
+            key_id = db.user_keys.insert(
                 p11_label=request.vars.label,
                 p11_type=request.vars.type,
                 p11_size_or_curve=size_or_curve
@@ -34,7 +34,10 @@ def generate_key():
             print("Error, unable to generate key.")
 
         session.list_all_objects()
-
+        if key_id is not None:
+            key = db(db.user_keys.id == key_id).select().first()
+            print(key)
+            return response.json(key)
     return response.json(dict(generate_key=None))
 
 @auth.requires_login()
