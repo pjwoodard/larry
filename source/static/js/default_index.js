@@ -10,6 +10,15 @@ var app = function () {
       console.log(passedFile);
     };
 
+    self.get_user_keys = function() {
+        $.getJSON(get_user_keys_url, {}, function(data) {
+            for (var i = 0; i < data.keys.length; i++)
+            {
+                self.vue.user_keys.push(data.keys[i]);
+            }
+        });
+    };
+
     // Complete as needed.
     self.vue = new Vue({
         el: "#vue-div",
@@ -18,21 +27,29 @@ var app = function () {
         data: {
             key_generator: new KeyGenerator(),
             signer: new Signer(),
+            user_keys: [],
             selected: null,
         },
+        // watch: {
+        //     user_keys: self.get_user_keys,
+        // },
         methods: {
             upload_file: self.upload_file,
+            destroy_everything: function() {
+                $.post(destroy_everything_url, {});
+            },
+            get_user_keys: self.get_user_keys,
         },
-
         computed: {
             available_size_or_curves() {
                 return this.key_generator.key_type
                     ? this.key_generator.key_type.sizes
                     : false;
-            }
+            },
         }
     });
 
+    self.vue.get_user_keys();
     $("#vue-div").show();
 
     return self;

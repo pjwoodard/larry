@@ -8,8 +8,8 @@
       <div class="form-group">
         <label>Key</label>
         <v-select
-          v-model="signer.key_type"
-          :options="signer.key_types()">
+          v-model="signer.key"
+          :options="user_keys">
         </v-select>
       </div>
     </div>
@@ -17,7 +17,7 @@
     <div class="col-md-3">
       <div class="form-group">
         <label>Key type:</label>
-        <div v-if="signer.key_type">${signer.key_type}</div>
+        <div v-if="signer.key">${signer.key}</div>
         <div v-else>-</div>
       </div>
     </div>
@@ -25,7 +25,7 @@
     <div class="col-md-3">
       <div class="form-group">
         <label>Key size/curve:</label>
-        <div v-if="signer.key_type">${signer.key_type}</div>
+        <div v-if="signer.key">${signer.key}</div>
         <div v-else>-</div>
       </div>
     </div>
@@ -55,10 +55,14 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-md-12">
+      <span v-for="key in user_keys"> ${key.p11_label} </span>
+    </div>
+  </div>
+
   <div class="form-group">
     <label>Data <strong>(add drag and drop later)</strong></label>
-      {{include 'default/dropzone.html'}}
-      <!--
     <textarea
       class="form-control"
       placeholder="Enter data..."
@@ -66,7 +70,6 @@
       style="resize:vertical"
       v-model="signer.data">
     </textarea>
-    -->
   </div>
 
   <div class="box-footer">

@@ -20,7 +20,7 @@ function KeyGenerator() {
         },
         {
             type: "EC",
-            sizes: 
+            sizes:
             [
                 'prime192v2', 'prime192v3', 'prime239v1', 'sect163k1',
                 'sect163r2', 'secp192r1', 'secp224r1', 'sect233k1', 'secp256r1',
@@ -34,10 +34,10 @@ function KeyGenerator() {
     this.generate = function () {
         $.post(
             generate_key_url,
-            { 
+            {
                 label:  this.key_label,
                 type:   this.key_type.type,
-                size:   this.key_size  
+                size:   this.key_size
             }
         );
     };
