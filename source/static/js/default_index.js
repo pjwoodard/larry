@@ -11,7 +11,7 @@ var app = function () {
     };
 
     self.get_user_keys = function() {
-        $.get(get_user_keys_url, {}, function(data) {
+        $.getJSON(get_user_keys_url, {}, function(data) {
             self.vue.user_keys = [];
             for (var i = 0; i < data.keys.length; i++)
             {
