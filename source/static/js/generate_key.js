@@ -41,6 +41,9 @@ function KeyGenerator() {
             }
         );
         APP.vue.get_user_keys();
+        this.key_label = null;
+        this.key_type = null;
+        this.key_size = null;
     };
 
     this.key_sizes = function () {
