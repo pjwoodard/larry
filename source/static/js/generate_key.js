@@ -40,6 +40,7 @@ function KeyGenerator() {
                 size:   this.key_size
             }
         );
+        APP.vue.get_user_keys();
     };
 
     this.key_sizes = function () {

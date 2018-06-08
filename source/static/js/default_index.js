@@ -12,9 +12,11 @@ var app = function () {
 
     self.get_user_keys = function() {
         $.get(get_user_keys_url, {}, function(data) {
+            self.vue.user_keys = [];
+            self.vue.labels = [];
             for (var i = 0; i < data.keys.length; i++)
             {
-                self.vue.user_keys.push(data.keys[i]);
+                self.vue.user_keys.push(JSON.stringify(data.keys[i]));
                 self.vue.labels.push(data.keys[i].p11_label);
             }
         });
@@ -40,6 +42,7 @@ var app = function () {
             upload_file: self.upload_file,
             destroy_everything: function() {
                 $.post(destroy_everything_url, {});
+                self.get_user_keys();
             },
             get_user_keys: self.get_user_keys,
         },
