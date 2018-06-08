@@ -36,7 +36,6 @@ def generate_key():
         session.list_all_objects()
         if key_id is not None:
             key = db(db.user_keys.id == key_id).select().first()
-            print(key)
             return response.json(key)
     return response.json(dict(generate_key=None))
 

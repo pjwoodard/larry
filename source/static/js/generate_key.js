@@ -39,12 +39,10 @@ function KeyGenerator() {
                 type:   this.key_type.type,
                 size:   this.key_size
             }, function(key) {
-                console.log("inserted: ",key);
-                console.log("SOMETHING ANYTHING");
-                APP.vue.user_keys.push(key);
+                if (key != null)
+                    APP.vue.user_keys.push(key);
             }
         );
-        // APP.vue.get_user_keys();
         this.key_label = null;
         this.key_type = null;
         this.key_size = null;
