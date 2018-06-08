@@ -42,6 +42,7 @@ var app = function () {
             destroy_everything: function() {
                 $.post(destroy_everything_url, {});
                 self.get_user_keys();
+                self.vue.signer.key=null;
             },
             get_user_keys: self.get_user_keys,
         },
