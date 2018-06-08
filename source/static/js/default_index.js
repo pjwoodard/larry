@@ -13,7 +13,6 @@ var app = function () {
     self.get_user_keys = function() {
         $.get(get_user_keys_url, {}, function(data) {
             self.vue.user_keys = [];
-            self.vue.labels = [];
             for (var i = 0; i < data.keys.length; i++)
             {
                 self.vue.user_keys.push(data.keys[i]);
@@ -30,7 +29,6 @@ var app = function () {
             key_generator: new KeyGenerator(),
             signer: new Signer(),
             user_keys: [],
-            labels: [],
             selected: null,
 
         },
