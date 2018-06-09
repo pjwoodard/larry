@@ -49,24 +49,6 @@
     </div>
   </div>
 
-  <div v-if="signer.dgst_mechs() != null" class="row">
-    <div class="col-md-12">
-      <div class="form-group">
-        <label>Digest mechanism</label>
-        <v-select
-          v-model="signer.dgst_mech"
-          :options="signer.dgst_mechs()">
-        </v-select>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <span v-for="key in user_keys"> ${key.p11_label} </span>
-    </div>
-  </div>
-
   <div class="form-group">
     <label>Data <strong>(add drag and drop later)</strong></label>
     <textarea
