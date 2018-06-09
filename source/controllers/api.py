@@ -55,12 +55,40 @@ def destroy_everything():
 @auth.requires_login()
 @auth.requires_signature()
 def sign():
-    return response.json(dict(signed_file=None))
+    object_class = ObjectClass.PRIVATE_KEY
+    if request.args.object_class == "AES":
+        object_class = ObjectClass.SECRET_KEY
+
+    signed_data = None
+    with Session() as session:
+        signed_data = session.sign(
+            object_class,
+            request.args.label,
+            request.args.object_id,
+            request.args.data
+        )
+
+    print(signed_data)
+    return response.json(dict(signed_data=signed_data))
 
 @auth.requires_login()
 @auth.requires_signature()
 def verify():
-    return response.json(dict(signed_file=None))
+    object_class = ObjectClass.PUBLIC_KEY
+    if request.args.object_class == "AES":
+        object_class = ObjectClass.SECRET_KEY
+
+    success = False
+    with Session() as session:
+        success = session.verify(
+            object_class,
+            request.args.label,
+            request.args.object_id,
+            request.args.data,
+            request.args.signed_data
+        )
+
+    return response.json(dict(is_valid_signature=success))
 
 @auth.requires_login()
 @auth.requires_signature()
