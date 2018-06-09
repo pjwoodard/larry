@@ -23,6 +23,8 @@ function Signer()
     ];
 
     this.mech_map = {
+        AES: {},
+
         DSA: {
             DSA: this.all_dgsts,
             DSA_SHA1: null,
@@ -50,20 +52,21 @@ function Signer()
 
     // Member functions ------------------------------------------------
 
-    this.key_types = function() {
-        var types = [ "DSA", "EC", "RSA" ];
-        if (this.key_type != null)
+    this.key_type = function() {
+        if (this.key != null)
         {
-            types.splice(types.indexOf(this.key_type), 1);
+            console.log(this.key.p11_type);
+            return String(this.key.p11_type);
         }
-        return types;
+
+        return null
     };
 
     this.sign_mechs = function() {
         mechs = null;
-        if (this.key_type != null)
+        if (this.key_type() != null)
         {
-            mechs = Object.keys(this.mech_map[this.key_type]).slice();
+            mechs = Object.keys(this.mech_map[this.key_type()]).slice();
             if (mechs != null)
             {
                 if (mechs.length <= 0)
@@ -88,35 +91,9 @@ function Signer()
         return mechs;
     };
 
-    this.dgst_mechs = function() {
-        mechs = null;
-        if (this.key_type != null && this.sign_mech != null)
-        {
-            var tmp = this.mech_map[this.key_type][this.sign_mech];
-            if (tmp != null)
-            {
-                mechs = tmp.slice();
-                if (mechs.length <= 0)
-                {
-                    mechs = null;
-                }
-                else if (this.dgst_mech != null)
-                {
-                    var index = mechs.indexOf(this.dgst_mech);
-                    if (index >= 0)
-                    {
-                        mechs.splice(index, 1);
-                    }
-                }
-            }
-        }
-
-        return mechs;
-    };
-
     this.sign = function() {
         console.log(this.data);
-        console.log(this.key_type);
+        console.log(this.key_type());
         console.log(this.sign_mech);
         console.log(this.dgst_mech);
     };
