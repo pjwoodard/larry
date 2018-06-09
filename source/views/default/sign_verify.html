@@ -1,5 +1,10 @@
 <section class="box-header with-border">
-  <b>Sign/verify</b>
+  <b class="box-title">Sign/verify</b>
+  <div class="box-tools pull-right">
+    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+      <i class="fa fa-minus"></i>
+    </button>
+  </div>
 </section>
 
 <div class="box-body">
@@ -7,9 +12,9 @@
     <div class="col-md-6">
       <div class="form-group">
         <label>Key</label>
-        <v-select
-          v-model="signer.key"
-          :options="user_keys"
+        <v-select 
+          v-model="signer.key" 
+          :options="user_keys" 
           label="p11_label"  >
         </v-select>
       </div>
