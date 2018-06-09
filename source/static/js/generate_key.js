@@ -10,32 +10,10 @@ function KeyGenerator() {
     this.kt_error = false;
     this.ks_error = false;
 
-    this.key_type_to_size_and_curves = [
-        {
-            type: "AES",
-            sizes: ["128", "192", "256"]
-        },
-        {
-            type: "RSA",
-            sizes: ["1024", "1536", "2048", "4096"]
-        },
-        {
-            type: "DSA",
-            sizes: ["1024", "2048", "3072"]
-        },
-        {
-            type: "EC",
-            sizes:
-
-            [
-                'prime192v2', 'prime192v3', 'prime239v1', 'sect163k1',
-                'sect163r2', 'secp192r1', 'secp224r1', 'sect233k1', 'secp256r1',
-                'sect233r1', 'sect283k1', 'sect283r1', 'secp384r1', 'sect409k1',
-                'sect409r1', 'secp521r1', 'sect571k1', 'sect571r1'
-            ]
-        }
-    ],
-
+    this.key_type_to_size_and_curves = function() {
+        return size_or_curve_map;
+    };
+        
     this.clearErrors = function () {
         this.kl_error = false;
         this.ks_error = false;

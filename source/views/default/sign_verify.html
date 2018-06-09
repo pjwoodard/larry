@@ -9,29 +9,28 @@
 
 <div class="box-body">
   <div class="row">
-    <div class="col-md-6">
       <div class="form-group">
-        <label>Key</label>
-        <v-select 
-          v-model="signer.key" 
-          :options="user_keys" 
-          label="p11_label"  >
-        </v-select>
-      </div>
+        <div class="col-md-12">
+          <label>Key</label>
+          <v-select 
+            v-model="signer.key" 
+            :options="user_keys" 
+            label="p11_label"  >
+          </v-select>
+        </div>
     </div>
+  </div>
 
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Key type:</label>
-        <div v-if="signer.key">${signer.key.p11_type}</div>
-        <div v-else>-</div>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="form-group">
+  <div class="row">
+    <div class="form-group">
+      <div class="col-md-3">
         <label>Key size/curve:</label>
         <div v-if="signer.key">${signer.key.p11_size_or_curve}</div>
+        <div v-else>-</div>
+      </div>
+      <div class="col-md-3">
+        <label>Key type:</label>
+        <div v-if="signer.key">${signer.key.p11_type}</div>
         <div v-else>-</div>
       </div>
     </div>

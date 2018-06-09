@@ -24,11 +24,11 @@
 
     <div v-if="key_generator.kt_error == false" class="form-group">
         <label>Key Type</label>
-        <v-select label="type" v-model="key_generator.key_type" :options="key_generator.key_type_to_size_and_curves"></v-select>
+        <v-select label="type" v-model="key_generator.key_type" :options="key_generator.key_type_to_size_and_curves()"></v-select>
     </div>
     <div v-if="key_generator.kt_error == true" class="form-group has-error">
         <label>Key Type</label>
-        <v-select label="type" v-model="key_generator.key_type" :options="key_generator.key_type_to_size_and_curves"></v-select>
+        <v-select label="type" v-model="key_generator.key_type" :options="key_generator.key_type_to_size_and_curves()"></v-select>
         <span class="help-block">Key must have a type.</span>
     </div>
 

@@ -9,47 +9,6 @@ function Signer()
     this.sign_mech = null;
     this.dgst_mech = null;
 
-    // Mechanism lists -------------------------------------------------
-
-    // Later should put these in a configurable JSON file or something.
-
-    this.all_dgsts = [
-        "MD5",
-        "SHA_1",
-        "SHA224",
-        "SHA256",
-        "SHA384",
-        "SHA512",
-    ];
-
-    this.mech_map = {
-        AES: {},
-
-        DSA: {
-            DSA: this.all_dgsts,
-            DSA_SHA1: null,
-            DSA_SHA224: null,
-            DSA_SHA256: null,
-            DSA_SHA384: null,
-            DSA_SHA512: null,
-        },
-
-        EC: {
-            ECDSA: this.all_dgsts,
-        },
-
-        RSA: {
-            RSA_PKCS: this.all_dgsts,
-            RSA_X509: this.all_dgsts,
-            MD5_RSA_PKCS: null,
-            SHA1_RSA_PKCS: null,
-            SHA224_RSA_PKCS: null,
-            SHA256_RSA_PKCS: null,
-            SHA384_RSA_PKCS: null,
-            SHA512_RSA_PKCS: null,
-        },
-    };
-
     // Member functions ------------------------------------------------
 
     this.key_type = function() {
@@ -66,7 +25,7 @@ function Signer()
         mechs = null;
         if (this.key_type() != null)
         {
-            mechs = Object.keys(this.mech_map[this.key_type()]).slice();
+            mechs = Object.keys(sign_mech_map[this.key_type()]).slice();
             if (mechs != null)
             {
                 if (mechs.length <= 0)
