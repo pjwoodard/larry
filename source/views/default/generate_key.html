@@ -5,15 +5,28 @@
 
 <!-- Main content -->
 <div class="box-body">
+
     <!-- /.form-group -->
-    <div class="form-group">
+    <div v-if="key_generator.kl_error == false" class="form-group">
         <label>Key Label</label>
         <input v-model="key_generator.key_label" type="text" class="form-control" placeholder="Enter ...">
     </div>
-    <div class="form-group">
+    <div v-if="key_generator.kl_error == true" class="form-group has-error">
+        <label>Key Label</label>
+        <input v-model="key_generator.key_label" type="text" class="form-control" placeholder="Enter ...">
+        <span class="help-block">Key must have a label.</span>
+    </div>
+
+    <div v-if="key_generator.kt_error == false" class="form-group">
         <label>Key Type</label>
         <v-select label="type" v-model="key_generator.key_type" :options="key_generator.key_type_to_size_and_curves"></v-select>
     </div>
+    <div v-if="key_generator.kt_error == true" class="form-group has-error">
+        <label>Key Type</label>
+        <v-select label="type" v-model="key_generator.key_type" :options="key_generator.key_type_to_size_and_curves"></v-select>
+        <span class="help-block">Key must have a type.</span>
+    </div>
+
     <div v-if="key_generator.key_sizes() != null" class="form-group">
         <label>Key Size / Curve</label>
         <v-select :options="key_generator.key_sizes()" v-model="key_generator.key_size"></v-select>
@@ -21,5 +34,6 @@
     <button v-on:click="key_generator.generate()" type="submit" class="btn btn-primary btn-flat">
         Generate
     </button>
+
 </div>
 <!-- /.content -->
