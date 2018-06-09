@@ -5,6 +5,11 @@ function KeyGenerator() {
     this.key_label = null;
     this.key_type = null;
     this.key_size = null;
+
+    this.kl_error = false;
+    this.kt_error = false;
+    this.ks_error = false;
+
     this.key_type_to_size_and_curves = [
         {
             type: "AES",
@@ -20,26 +25,62 @@ function KeyGenerator() {
         },
         {
             type: "EC",
-            sizes: 
-            [
-                'prime192v2', 'prime192v3', 'prime239v1', 'sect163k1',
-                'sect163r2', 'secp192r1', 'secp224r1', 'sect233k1', 'secp256r1',
-                'sect233r1', 'sect283k1', 'sect283r1', 'secp384r1', 'sect409k1',
-                'sect409r1', 'secp521r1', 'sect571k1', 'sect571r1'
-            ]
+            sizes:
+                [
+                    'prime192v2', 'prime192v3', 'prime239v1', 'sect163k1',
+                    'sect163r2', 'secp192r1', 'secp224r1', 'sect233k1', 'secp256r1',
+                    'sect233r1', 'sect283k1', 'sect283r1', 'secp384r1', 'sect409k1',
+                    'sect409r1', 'secp521r1', 'sect571k1', 'sect571r1'
+                ]
         }
     ],
 
+    this.clearErrors = function () {
+        this.kl_error = false;
+        this.ks_error = false;
+        this.kt_error = false;
+    };
+
+    this.validateForm = function () {
+        validated = true; 
+
+        this.clearErrors();
+        
+        if (this.key_label == null) {
+            this.kl_error = true;
+            validated = false;
+        } 
+        if (this.key_type == null) {
+            this.kt_error = true;
+            validated = false;
+        } 
+        if (this.key_size == null) {
+            this.ks_error = true;
+            validated = false;
+        }
+
+        return validated;
+    }
+
     // Member functions ------------------------------------------------
     this.generate = function () {
-        $.post(
-            generate_key_url,
-            { 
-                label:  this.key_label,
-                type:   this.key_type.type,
-                size:   this.key_size  
-            }
-        );
+
+        if (this.validateForm()) {
+            $.post(
+                generate_key_url,
+                {
+                    label: this.key_label,
+                    type: this.key_type.type,
+                    size: this.key_size
+                }, function (key) {
+                    if (key != null)
+                        APP.vue.user_keys.push(key);
+                }
+            );
+            this.key_label = null;
+            this.key_type = null;
+            this.key_size = null;
+        }
     };
 
     this.key_sizes = function () {
