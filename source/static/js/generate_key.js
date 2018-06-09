@@ -26,12 +26,13 @@ function KeyGenerator() {
         {
             type: "EC",
             sizes:
-                [
-                    'prime192v2', 'prime192v3', 'prime239v1', 'sect163k1',
-                    'sect163r2', 'secp192r1', 'secp224r1', 'sect233k1', 'secp256r1',
-                    'sect233r1', 'sect283k1', 'sect283r1', 'secp384r1', 'sect409k1',
-                    'sect409r1', 'secp521r1', 'sect571k1', 'sect571r1'
-                ]
+
+            [
+                'prime192v2', 'prime192v3', 'prime239v1', 'sect163k1',
+                'sect163r2', 'secp192r1', 'secp224r1', 'sect233k1', 'secp256r1',
+                'sect233r1', 'sect283k1', 'sect283r1', 'secp384r1', 'sect409k1',
+                'sect409r1', 'secp521r1', 'sect571k1', 'sect571r1'
+            ]
         }
     ],
 
@@ -64,7 +65,6 @@ function KeyGenerator() {
 
     // Member functions ------------------------------------------------
     this.generate = function () {
-
         if (this.validateForm()) {
             $.post(
                 generate_key_url,

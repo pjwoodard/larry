@@ -107,6 +107,14 @@ class Session:
         """
         return self.p11.get_objects(template)
 
+    def destroy_all_objects(self):
+        """ Prints all data, certificates, and keys on the HSM. """
+        self.destroy_objects({Attribute.CLASS: ObjectClass.DATA})
+        self.destroy_objects({Attribute.CLASS: ObjectClass.CERTIFICATE})
+        self.destroy_objects({Attribute.CLASS: ObjectClass.SECRET_KEY})
+        self.destroy_objects({Attribute.CLASS: ObjectClass.PUBLIC_KEY})
+        self.destroy_objects({Attribute.CLASS: ObjectClass.PRIVATE_KEY})
+
     def destroy_objects(self, template):
         """
         Destroys objects with attributes that match the template.
@@ -129,9 +137,9 @@ class Session:
         """
         Destroys all objects with matching id.
 
-        @param label: The label to match and delete.
+        @param id: The id string to match and delete.
         """
-        self.destroy_objects({Attribute.ID: object_id})
+        self.destroy_objects({Attribute.ID: bytes(object_id, "utf-8")})
 
     # Key generation ---------------------------------------------------
 
@@ -141,20 +149,22 @@ class Session:
 
         @param size: The size of the key.
         @param label: The label of the key.
-        @param object_id: The unique identifier of the key.
+        @param object_id: The unique identifier of the key as a string.
         @raise ValueError: Raised when an invalid key size is passed.
         @return: The key.
         """
         if size not in Session.__aes_sizes:
             raise ValueError('Invalid AES key size.')
 
-        return self.p11.generate_key(KeyType.AES,
-                                     size,
-                                     template={
-                                        Attribute.ID: object_id,
-                                        Attribute.LABEL: label,
-                                     },
-                                     store=store)
+        return self.p11.generate_key(
+            KeyType.AES,
+            size,
+            template={
+                Attribute.ID: bytes(object_id, "utf-8"),
+                Attribute.LABEL: label
+            },
+            store=store
+        )
 
     def generate_rsa(self, size, label, object_id='', store=True):
         """
@@ -162,17 +172,19 @@ class Session:
 
         @param size: The size of the key.
         @param label: The label of the key.
-        @param object_id: The unique identifier of the key.
+        @param object_id: The unique identifier of the key as a string.
         @raise ValueError: Raised when an invalid key size is passed.
         @return: The key.
         """
         if size not in Session.__rsa_sizes:
             raise ValueError('Invalid RSA key size.')
-        return self.p11.generate_keypair(KeyType.RSA,
-                                         size,
-                                         label=label,
-                                         id=object_id,
-                                         store=store)
+        return self.p11.generate_keypair(
+            KeyType.RSA,
+            size,
+            label=label,
+            id=bytes(object_id, "utf-8"),
+            store=store
+        )
 
     def generate_dsa(self, size, label, object_id='', store=True):
         """
@@ -186,11 +198,13 @@ class Session:
         """
         if size not in Session.__dsa_sizes:
             raise ValueError('Invalid DSA key size.')
-        return self.p11.generate_keypair(KeyType.DSA,
-                                         size,
-                                         label=label,
-                                         id=object_id,
-                                         store=store)
+        return self.p11.generate_keypair(
+            KeyType.DSA,
+            size,
+            label=label,
+            id=bytes(object_id, "utf-8"),
+            store=store
+        )
 
     def generate_ec(self, curve, label, object_id='', store=True):
         """
@@ -198,7 +212,7 @@ class Session:
 
         @param curve: The name of the desired elliptic curve.
         @param label: The label of the key.
-        @param object_id: The unique identifier of the key.
+        @param object_id: The unique identifier of the key as a string.
         @raise ValueError: Raised when an invalid curve is passed.
         @return: The key.
         """
@@ -207,6 +221,8 @@ class Session:
         parameters = self.p11.create_domain_parameters(KeyType.EC, {
             Attribute.EC_PARAMS: encode_named_curve_parameters(curve)
         }, local=True)
-        return parameters.generate_keypair(label=label,
-                                           id=object_id,
-                                           store=store)
+        return parameters.generate_keypair(
+            label=label,
+            id=bytes(object_id, "utf-8"),
+            store=store
+        )

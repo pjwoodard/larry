@@ -1,4 +1,4 @@
-{{extend 'layout.html'}} 
+{{extend 'layout.html'}}
 
 <section class="content">
   <div class="row">
@@ -14,4 +14,8 @@
       </section>
     </div>
   </div>
+
+  <button v-on:click="destroy_everything()" type="submit" class="btn btn-primary btn-flat">
+    delete everything
+  </button>
 </section>
