@@ -2,14 +2,39 @@ function Signer()
 {
     // Variables -------------------------------------------------------
 
-    this.data = "";
+    this.data = null;
     this.enabled = false;
 
     this.key = null;
     this.sign_mech = null;
     this.dgst_mech = null;
 
+    this.key_error = false;
+    this.data_error = false;
+
     // Member functions ------------------------------------------------
+
+    this.clear_errors = function() {
+        this.key_error = false;
+        this.data_error = false;
+    };
+
+    this.validate_form = function() {
+        validated = true;
+
+        this.clear_errors();
+
+        if(this.key == null) {
+            this.key_error = true;
+            validated = false;
+        }
+        if(this.data == null) {
+            this.data_error = true;
+            validated = false;
+        }
+
+        return validated;
+    };
 
     this.key_type = function() {
         if (this.key != null)
@@ -51,16 +76,20 @@ function Signer()
     };
 
     this.sign = function() {
-        console.log(this.data);
-        console.log(this.key_type());
-        console.log(this.sign_mech);
-        console.log(this.dgst_mech);
+        if(this.validate_form()) {
+            console.log(this.data);
+            console.log(this.key_type());
+            console.log(this.sign_mech);
+            console.log(this.dgst_mech);
+        }
     };
 
     this.verify = function() {
-        console.log(this.data);
-        console.log(this.key_type);
-        console.log(this.sign_mech);
-        console.log(this.dgst_mech);
+        if(this.validate_form()) {
+            console.log(this.data);
+            console.log(this.key_type);
+            console.log(this.sign_mech);
+            console.log(this.dgst_mech);
+        }
     };
 }
