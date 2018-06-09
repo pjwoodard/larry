@@ -7,7 +7,6 @@ function Signer()
 
     this.key = null;
     this.sign_mech = null;
-    this.dgst_mech = null;
 
     // Member functions ------------------------------------------------
 
@@ -54,7 +53,21 @@ function Signer()
         console.log(this.data);
         console.log(this.key_type());
         console.log(this.sign_mech);
-        console.log(this.dgst_mech);
+
+        $.post(
+            sign_url,
+            {
+                obj_type: this.key_type(),
+                label: this.key.p11_label,
+                object_id: this.key.p11_id,
+                mech: this.sign_mech,
+                data: this.data,
+            }, function () {}
+        );
+
+        this.key = null;
+        this.sign_mech = null;
+        this.data = null;
     };
 
     this.verify = function() {

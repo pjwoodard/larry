@@ -252,14 +252,14 @@ class Session:
         @param data: The data to sign, as a string.
         @return: The signed data.
         """
-        if mech_str not in Session.__ec_curves:
+        if mech_str not in Session.__mechs:
             raise ValueError('Invalid mechanism.')
         key = self.p11.get_key(
             object_class=object_class,
             label=label,
             id=bytes(object_id, "utf-8")
         )
-        return key.sign(data, mechanism=__mechs[mech_str])
+        return key.sign(data, mechanism=Session.__mechs[mech_str])
 
     def verify(self,
                object_class,
@@ -280,7 +280,7 @@ class Session:
         @return: True if the signed data is a valid signature, False
                  otherwise.
         """
-        if mech_str not in Session.__ec_curves:
+        if mech_str not in Session.__mechs:
             raise ValueError('Invalid mechanism.')
         key = self.p11.get_key(
             object_class=object_class,
@@ -290,5 +290,5 @@ class Session:
         return key.verify(
             data,
             signed_data,
-            mechanism=__mechs[mech_str]
+            mechanism=Session.__mechs[mech_str]
         )

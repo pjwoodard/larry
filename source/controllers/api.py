@@ -56,16 +56,23 @@ def destroy_everything():
 @auth.requires_signature()
 def sign():
     object_class = ObjectClass.PRIVATE_KEY
-    if request.args.object_class == "AES":
+    if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
+
+    print(request.vars.obj_type)
+    print(request.vars.label)
+    print(request.vars.object_id)
+    print(request.vars.mech)
+    print(request.vars.data)
 
     signed_data = None
     with Session() as session:
         signed_data = session.sign(
             object_class,
-            request.args.label,
-            request.args.object_id,
-            request.args.data
+            request.vars.label,
+            request.vars.object_id,
+            request.vars.mech,
+            request.vars.data
         )
 
     print(signed_data)
@@ -75,17 +82,18 @@ def sign():
 @auth.requires_signature()
 def verify():
     object_class = ObjectClass.PUBLIC_KEY
-    if request.args.object_class == "AES":
+    if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
 
     success = False
     with Session() as session:
         success = session.verify(
-            object_class,
-            request.args.label,
-            request.args.object_id,
-            request.args.data,
-            request.args.signed_data
+            ObjectClass.PUBLIC_KEY,
+            request.vars.label,
+            request.vars.object_id,
+            request.vars.mech,
+            request.vars.data,
+            signed_data
         )
 
     return response.json(dict(is_valid_signature=success))

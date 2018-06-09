@@ -4,7 +4,7 @@ def get_user_email():
     return auth.user.email if auth.user is not None else None
 
 def get_user_id_str():
-    return auth.user.id if auth.user is not None else None
+    return str(auth.user.id) if auth.user is not None else None
 
 db.define_table(
     'user_keys',
@@ -12,7 +12,7 @@ db.define_table(
     Field('p11_label'),
     Field('p11_type'),
     Field('p11_size_or_curve'),
-    Field('p11_id', default=str(get_user_id_str)),
+    Field('p11_id', default=get_user_id_str()),
 
     Field('user_email', default=get_user_email()),
     Field('date_created', 'datetime', update=datetime.datetime.utcnow())
