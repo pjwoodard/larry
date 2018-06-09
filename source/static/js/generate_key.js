@@ -38,8 +38,14 @@ function KeyGenerator() {
                 label:  this.key_label,
                 type:   this.key_type.type,
                 size:   this.key_size
+            }, function(key) {
+                if (key != null)
+                    APP.vue.user_keys.push(key);
             }
         );
+        this.key_label = null;
+        this.key_type = null;
+        this.key_size = null;
     };
 
     this.key_sizes = function () {

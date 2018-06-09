@@ -12,6 +12,7 @@ var app = function () {
 
     self.get_user_keys = function() {
         $.getJSON(get_user_keys_url, {}, function(data) {
+            self.vue.user_keys = [];
             for (var i = 0; i < data.keys.length; i++)
             {
                 self.vue.user_keys.push(data.keys[i]);
@@ -29,6 +30,7 @@ var app = function () {
             signer: new Signer(),
             user_keys: [],
             selected: null,
+
         },
         // watch: {
         //     user_keys: self.get_user_keys,
@@ -37,6 +39,8 @@ var app = function () {
             upload_file: self.upload_file,
             destroy_everything: function() {
                 $.post(destroy_everything_url, {});
+                self.vue.user_keys = [];
+                self.vue.signer.key=null;
             },
             get_user_keys: self.get_user_keys,
         },
