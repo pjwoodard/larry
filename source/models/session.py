@@ -1,6 +1,6 @@
 import os
 import pkcs11
-from pkcs11 import Attribute, KeyType, ObjectClass
+from pkcs11 import Attribute, KeyType, ObjectClass, Mechanism
 from pkcs11.util.ec import encode_named_curve_parameters
 
 class Session:
@@ -44,6 +44,20 @@ class Session:
     All supported python-pkcs11 curves:
     https://github.com/wbond/asn1crypto/blob/master/asn1crypto/keys.py
     """
+
+    __mechs = {
+        "RSA_PKCS_PSS" : Mechanism.RSA_PKCS_PSS,
+        "SHA1_RSA_PKCS" : Mechanism.SHA1_RSA_PKCS,
+        "SHA224_RSA_PKCS" : Mechanism.SHA224_RSA_PKCS,
+        "SHA256_RSA_PKCS" : Mechanism.SHA256_RSA_PKCS,
+        "SHA384_RSA_PKCS" : Mechanism.SHA384_RSA_PKCS,
+        "SHA512_RSA_PKCS" : Mechanism.SHA512_RSA_PKCS
+    }
+    """
+    Map of our supported mechanisms.
+    """
+
+    # Conversion -------------------------------------------------------
 
     # Initialization ---------------------------------------------------
 
@@ -225,4 +239,56 @@ class Session:
             label=label,
             id=bytes(object_id, "utf-8"),
             store=store
+        )
+
+    def sign(self, object_class, label, object_id, mech_str, data):
+        """
+        Sign with a key.
+
+        @param object_class: The class of the key to sign with.
+        @param label: The label of the key to sign with.
+        @param object_id: The id of the key to sign with, as a string.
+        @param mech_str: The mechanism to sign with as a string.
+        @param data: The data to sign, as a string.
+        @return: The signed data.
+        """
+        if mech_str not in Session.__ec_curves:
+            raise ValueError('Invalid mechanism.')
+        key = self.p11.get_key(
+            object_class=object_class,
+            label=label,
+            id=bytes(object_id, "utf-8")
+        )
+        return key.sign(data, mechanism=__mechs[mech_str])
+
+    def verify(self,
+               object_class,
+               label,
+               object_id,
+               mech_str,
+               data,
+               signed_data):
+        """
+        Verify a signature.
+
+        @param object_class: The class of the key to sign with.
+        @param label: The label of the key to sign with.
+        @param object_id: The id of the key to sign with, as a string.
+        @param mech_str: The mechanism to sign with as a string.
+        @param data: The original data.
+        @param signed_data: The signed data.
+        @return: True if the signed data is a valid signature, False
+                 otherwise.
+        """
+        if mech_str not in Session.__ec_curves:
+            raise ValueError('Invalid mechanism.')
+        key = self.p11.get_key(
+            object_class=object_class,
+            label=label,
+            id=bytes(object_id, "utf-8")
+        )
+        return key.verify(
+            data,
+            signed_data,
+            mechanism=__mechs[mech_str]
         )
