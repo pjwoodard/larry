@@ -9,15 +9,21 @@
 
 <div class="box-body">
   <div class="row">
-      <div class="form-group">
+      <div v-if="crypter.key_error == false" class="form-group">
         <div class="col-md-12">
           <label>Key</label>
-          <v-select
-            v-model="crypter.key"
-            :options="user_keys"
-            label="p11_label"  >
+          <v-select v-model="crypter.key" :options="user_keys" label="p11_label"  >
           </v-select>
         </div>
+    </div>
+
+    <div v-if="crypter.key_error == true" class="form-group has-error">
+         <div class="col-md-12">
+        <label>Key</label>
+        <v-select v-model="crypter.key" :options="user_keys" label="p11_label">
+        </v-select>
+        <span class="help-block">A key must be chosen before encrypting / decrypting.</span>
+      </div>
     </div>
   </div>
 
@@ -50,16 +56,37 @@
 
   <div v-if="crypter.encr_mechs() != null" class="row">
     <div class="col-md-12">
-      <div class="form-group">
-        <label>IV</label>
-          <input v-model="crypter.IV" type="text" class="form-control" placeholder="Enter ...">
-      </div>
+     <label>IV</label>
+     <input v-model="crypter.IV" type="text" class="form-control" placeholder="Enter ...">
     </div>
   </div>
 
-  <div class="form-group">
+
+
+  <div v-if="crypter.data_error == false" class="form-group">
     <label>Data <strong></strong></label>
-      {{include 'default/dropzone.html'}}
+      <!-- In house dropzone uploader -->
+    <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+      <div class="center box__input">
+          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
+          <input v-on:change="crypter.upload_file" style="display:none" class="box__file" type="file"id="file"/>
+      </div>
+    </form>
+
+    <textarea
+      class="form-control"
+      placeholder="Enter data..."
+      rows="3"
+      style="resize:vertical"
+      v-model="crypter.data">
+    </textarea>
+
+  </div>
+
+  <div v-if="crypter.data_error == true" class="form-group has-error">
+    <label>Data <strong></strong></label>
+    {{include 'default/dropzone.html'}}
+    <span class="help-block">A file is required for encrypting / decrypting.</span>
   </div>
 
   <div class="box-footer">

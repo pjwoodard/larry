@@ -19,7 +19,7 @@ function Signer()
         this.sign_mech = null;
         this.data = "";
         this.signed_data = "";
-    }
+    };
 
     this.clear_errors = function() {
         this.key_error = false;
@@ -39,7 +39,6 @@ function Signer()
             this.data_error = true;
             validated = false;
         }
-
         return validated;
     };
 
@@ -83,6 +82,7 @@ function Signer()
     };
 
     this.sign = function() {
+        // this.data = APP.vue.data;
         if(this.validate_form()) {
             $.post(
                 sign_url,

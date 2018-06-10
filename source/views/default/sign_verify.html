@@ -58,7 +58,13 @@
     <label>Data <strong></strong></label>
   <div v-if="signer.data_error == false" class="form-group">
     <label>Data <strong></strong></label>
-    {{include 'default/dropzone.html'}}
+      <textarea
+      class="form-control"
+      placeholder="Enter data..."
+      rows="3"
+      style="resize:vertical"
+      v-model="signer.data">
+    </textarea>
     <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
     <textarea
       class="form-control"
@@ -70,7 +76,7 @@
   </div>
 
   <div v-if="signer.data_error == true" class="form-group has-error">
-    <label>Data <strong>(add drag and drop later)</strong></label>
+    <label>Data <strong></strong></label>
     <textarea
       class="form-control"
       placeholder="Enter data..."
@@ -88,7 +94,6 @@
       v-model="signer.signed_data">
     </textarea>
     <span class="help-block">A file is required for signing / verifying.</span>
->>>>>>> 70fa3c1301e71621e9af93948c63c64bc9c17440
   </div>
 
   <div class="box-footer">

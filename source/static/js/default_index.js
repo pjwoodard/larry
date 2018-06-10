@@ -6,8 +6,11 @@ var app = function () {
     Vue.config.silent = false; // show all warnings
 
     self.upload_file = function() {
-      self.vue.data =  event.target.files[0];
-      console.log(self.vue.data);
+      fr = new FileReader();
+      fr.onload = function(e) {
+          APP.vue.data = e.target.result;
+      };
+      fr.readAsText(event.target.files[0]);
     };
 
     self.get_user_keys = function() {
