@@ -55,12 +55,56 @@ def destroy_everything():
 @auth.requires_login()
 @auth.requires_signature()
 def sign():
-    return response.json(dict(signed_file=None))
+    object_class = ObjectClass.PRIVATE_KEY
+    if request.vars.obj_type == "AES":
+        object_class = ObjectClass.SECRET_KEY
+
+    print(request.vars.obj_type)
+    print(request.vars.label)
+    print(request.vars.object_id)
+    print(request.vars.mech)
+    print(request.vars.data)
+
+    signed_data = None
+    with Session() as session:
+        signed_data = session.sign(
+            object_class,
+            request.vars.label,
+            request.vars.object_id,
+            request.vars.mech,
+            request.vars.data
+        ).hex()
+
+    print(signed_data)
+    return response.json(dict(signed_data=signed_data))
 
 @auth.requires_login()
 @auth.requires_signature()
 def verify():
-    return response.json(dict(signed_file=None))
+    object_class = ObjectClass.PUBLIC_KEY
+    if request.vars.obj_type == "AES":
+        object_class = ObjectClass.SECRET_KEY
+
+    print(request.vars.obj_type)
+    print(request.vars.label)
+    print(request.vars.object_id)
+    print(request.vars.mech)
+    print(request.vars.data)
+    print(request.vars.signed_data)
+
+    success = False
+    with Session() as session:
+        success = session.verify(
+            ObjectClass.PUBLIC_KEY,
+            request.vars.label,
+            request.vars.object_id,
+            request.vars.mech,
+            request.vars.data,
+            bytes.fromhex(request.vars.signed_data)
+        )
+        print(success)
+
+    return response.json(dict(is_valid_signature=success))
 
 @auth.requires_login()
 @auth.requires_signature()

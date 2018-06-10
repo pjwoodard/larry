@@ -9,26 +9,32 @@
 
 <div class="box-body">
   <div class="row">
-      <div class="form-group">
-        <div class="col-md-12">
-          <label>Key</label>
-          <v-select 
-            v-model="signer.key" 
-            :options="user_keys" 
-            label="p11_label"  >
-          </v-select>
-        </div>
+    <div v-if="signer.key_error == false" class="form-group">
+      <div class="col-md-12">
+        <label>Key</label>
+        <v-select v-model="signer.key" :options="user_keys" label="p11_label">
+        </v-select>
+      </div>
+    </div>
+
+    <div v-if="signer.key_error == true" class="form-group has-error">
+      <div class="col-md-12">
+        <label>Key</label>
+        <v-select v-model="signer.key" :options="user_keys" label="p11_label">
+        </v-select>
+        <span class="help-block">A key must be chosen before signing / verifying.</span>
+      </div>
     </div>
   </div>
 
   <div class="row">
     <div class="form-group">
-      <div class="col-md-3">
+      <div class="col-md-6">
         <label>Key size/curve:</label>
         <div v-if="signer.key">${signer.key.p11_size_or_curve}</div>
         <div v-else>-</div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-6">
         <label>Key type:</label>
         <div v-if="signer.key">${signer.key.p11_type}</div>
         <div v-else>-</div>
@@ -50,7 +56,39 @@
 
   <div class="form-group">
     <label>Data <strong></strong></label>
-      {{include 'default/dropzone.html'}}
+  <div v-if="signer.data_error == false" class="form-group">
+    <label>Data <strong></strong></label>
+    {{include 'default/dropzone.html'}}
+    <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
+    <textarea
+      class="form-control"
+      placeholder="Enter data..."
+      rows="3"
+      style="resize:vertical"
+      v-model="signer.signed_data">
+    </textarea>
+  </div>
+
+  <div v-if="signer.data_error == true" class="form-group has-error">
+    <label>Data <strong>(add drag and drop later)</strong></label>
+    <textarea
+      class="form-control"
+      placeholder="Enter data..."
+      rows="3"
+      style="resize:vertical"
+      v-model="signer.data">
+    </textarea>
+
+    <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
+    <textarea
+      class="form-control"
+      placeholder="Enter data..."
+      rows="3"
+      style="resize:vertical"
+      v-model="signer.signed_data">
+    </textarea>
+    <span class="help-block">A file is required for signing / verifying.</span>
+>>>>>>> 70fa3c1301e71621e9af93948c63c64bc9c17440
   </div>
 
   <div class="box-footer">
