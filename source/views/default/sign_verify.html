@@ -9,17 +9,23 @@
 
 <div class="box-body">
   <div class="row">
-      <div class="form-group">
-        <div class="col-md-12">
-          <label>Key</label>
-          <v-select
-            v-model="signer.key"
-            :options="user_keys"
-            label="p11_label">
-          </v-select>
-        </div>
+    <div v-if="signer.key_error == false" class="form-group">
+      <div class="col-md-12">
+        <label>Key</label>
+        <v-select v-model="signer.key" :options="user_keys" label="p11_label">
+        </v-select>
       </div>
     </div>
+
+    <div v-if="signer.key_error == true" class="form-group has-error">
+      <div class="col-md-12">
+        <label>Key</label>
+        <v-select v-model="signer.key" :options="user_keys" label="p11_label">
+        </v-select>
+        <span class="help-block">A key must be chosen before signing / verifying.</span>
+      </div>
+    </div>
+  </div>
 
   <div class="row">
     <div class="form-group">
@@ -48,7 +54,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div v-if="signer.data_error == false" class="form-group">
     <label>Data <strong>(add drag and drop later)</strong></label>
     <textarea
       class="form-control"
@@ -57,6 +63,7 @@
       style="resize:vertical"
       v-model="signer.data">
     </textarea>
+
     <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
     <textarea
       class="form-control"
@@ -65,6 +72,27 @@
       style="resize:vertical"
       v-model="signer.signed_data">
     </textarea>
+  </div>
+
+  <div v-if="signer.data_error == true" class="form-group has-error">
+    <label>Data <strong>(add drag and drop later)</strong></label>
+    <textarea
+      class="form-control"
+      placeholder="Enter data..."
+      rows="3"
+      style="resize:vertical"
+      v-model="signer.data">
+    </textarea>
+
+    <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
+    <textarea
+      class="form-control"
+      placeholder="Enter data..."
+      rows="3"
+      style="resize:vertical"
+      v-model="signer.signed_data">
+    </textarea>
+    <span class="help-block">A file is required for signing / verifying.</span>
   </div>
 
   <div class="box-footer">
