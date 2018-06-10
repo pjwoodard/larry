@@ -30,6 +30,7 @@ def generate_key():
                 p11_type=request.vars.type,
                 p11_size_or_curve=size_or_curve
             )
+            print(db(db.user_data).select())
         except:
             print("Error, unable to generate key.")
 
@@ -50,7 +51,24 @@ def destroy_everything():
     with Session() as session:
         session.destroy_all_objects()
     db(db.user_keys).delete()
+    db(db.user_data).delete()
     return "ok"
+
+def get_key_data(label):
+    query = (db.user_keys.user_email == auth.user.email)
+    query = query & (db.user_keys.p11_label == label)
+    key = db(query).select().first()
+    query = (db.user_data.id == key.data_id)
+    return None if key is None else db(query).select().first()
+
+def inc_data_entry(label, entry):
+    success = False
+    data = get_key_data(request.vars.label)
+    if data is not None:
+        db(db.user_data.id == data.id).update(sign_count=data[entry]+1)
+        success = True
+        print(data)
+    return success
 
 @auth.requires_login()
 @auth.requires_signature()
@@ -93,6 +111,7 @@ def sign():
         #     encrypted
         # ).decode('utf-8'))
 
+        inc_data_entry(request.vars.label, "sign_count")
 
     print(signed_data)
     return response.json(dict(signed_data=signed_data))
@@ -121,6 +140,7 @@ def verify():
             request.vars.data,
             request.vars.signed_data
         )
+        inc_data_entry(request.vars.label, "verify_count")
         print(success)
 
     return response.json(dict(is_valid_signature=success))
@@ -149,6 +169,7 @@ def encrypt():
             request.vars.data,
             request.vars.iv
         )
+        inc_data_entry(request.vars.label, "encrypt_count")
 
     print(encrypted_data)
     return response.json(dict(encrypted_data=encrypted_data))
@@ -177,6 +198,7 @@ def decrypt():
             request.vars.data,
             request.vars.iv
         )
+        inc_data_entry(request.vars.label, "decrypt_count")
 
     print(decrypted_data)
     return response.json(dict(decrypted_data=decrypted_data))
