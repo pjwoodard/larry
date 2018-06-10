@@ -47,6 +47,7 @@ class Session:
 
     __crypt_mechs = {
         'AES_ECB' : Mechanism.AES_ECB,
+        'RSA_PKCS' : Mechanism.RSA_PKCS,
     }
     """
     Map of our supported encryption mechanisms.
@@ -310,7 +311,7 @@ class Session:
                 object_id,
                 mech_str,
                 data,
-                iv=''):
+                iv=None):
         """
         Encrypt data with the requested key.
 
@@ -328,8 +329,17 @@ class Session:
             label=label,
             id=bytes(object_id, 'utf-8')
         )
+
+        if iv is not None:
+            return key.encrypt(
+                data,
+                mechanism=Session.__crypt_mechs[mech_str],
+                mechanism_param=iv
+            ).hex()
+
         return key.encrypt(
-            data, mechanism=Session.__crypt_mechs[mech_str]
+            data,
+            mechanism=Session.__crypt_mechs[mech_str]
         ).hex()
 
     def decrypt(self,
@@ -338,7 +348,7 @@ class Session:
                 object_id,
                 mech_str,
                 encrypted_data,
-                iv=''):
+                iv=None):
         """
         Decrypt data with the requested key.
 
@@ -347,16 +357,25 @@ class Session:
         @param object_id: The id of the key to sign with, as a string.
         @param mech_str: The mechanism to sign with as a string.
         @param encrypted_data: The encrypted data as a hex string.
-        @return: The decrypted data.
+        @return: The decrypted data as a byte string.
         """
         if mech_str not in Session.__crypt_mechs:
             raise ValueError('Invalid mechanism.')
+
         key = self.p11.get_key(
             object_class=object_class,
             label=label,
             id=bytes(object_id, 'utf-8')
         )
+
+        if iv is not None:
+            return key.decrypt(
+                bytes.fromhex(encrypted_data),
+                mechanism=Session.__crypt_mechs[mech_str],
+                mechanism_param=iv
+            )
+
         return key.decrypt(
-            bytes.fromhex(data),
+            bytes.fromhex(encrypted_data),
             mechanism=Session.__crypt_mechs[mech_str]
         )

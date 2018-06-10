@@ -72,8 +72,27 @@ def sign():
             request.vars.label,
             request.vars.object_id,
             request.vars.mech,
-            request.vars.data
+            request.vars.data,
         )
+
+        # # For testing until we have crypt form
+        # encrypted = session.encrypt(
+        #     ObjectClass.PUBLIC_KEY,
+        #     request.vars.label,
+        #     request.vars.object_id,
+        #     request.vars.mech,
+        #     request.vars.data
+        # )
+
+        # print(encrypted)
+        # print(session.decrypt(
+        #     ObjectClass.PRIVATE_KEY,
+        #     request.vars.label,
+        #     request.vars.object_id,
+        #     request.vars.mech,
+        #     encrypted
+        # ).decode('utf-8'))
+
 
     print(signed_data)
     return response.json(dict(signed_data=signed_data))
