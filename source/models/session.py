@@ -1,6 +1,6 @@
 import os
 import pkcs11
-from pkcs11 import Attribute, KeyType, ObjectClass
+from pkcs11 import Attribute, KeyType, ObjectClass, Mechanism
 from pkcs11.util.ec import encode_named_curve_parameters
 
 class Session:
@@ -44,6 +44,30 @@ class Session:
     All supported python-pkcs11 curves:
     https://github.com/wbond/asn1crypto/blob/master/asn1crypto/keys.py
     """
+
+    __crypt_mechs = {
+        'AES_ECB' : Mechanism.AES_ECB,
+        'RSA_PKCS' : Mechanism.RSA_PKCS,
+    }
+    """
+    Map of our supported encryption mechanisms.
+    """
+
+    __sign_mechs = {
+        'RSA_PKCS' : Mechanism.RSA_PKCS,
+        'RSA_X509' : Mechanism.RSA_X_509,
+        'RSA_PKCS_PSS' : Mechanism.RSA_PKCS_PSS,
+        'SHA1_RSA_PKCS' : Mechanism.SHA1_RSA_PKCS,
+        'SHA224_RSA_PKCS' : Mechanism.SHA224_RSA_PKCS,
+        'SHA256_RSA_PKCS' : Mechanism.SHA256_RSA_PKCS,
+        'SHA384_RSA_PKCS' : Mechanism.SHA384_RSA_PKCS,
+        'SHA512_RSA_PKCS' : Mechanism.SHA512_RSA_PKCS,
+    }
+    """
+    Map of our supported signing mechanisms.
+    """
+
+    # Conversion -------------------------------------------------------
 
     # Initialization ---------------------------------------------------
 
@@ -139,7 +163,7 @@ class Session:
 
         @param id: The id string to match and delete.
         """
-        self.destroy_objects({Attribute.ID: bytes(object_id, "utf-8")})
+        self.destroy_objects({Attribute.ID: bytes(object_id, 'utf-8')})
 
     # Key generation ---------------------------------------------------
 
@@ -160,7 +184,7 @@ class Session:
             KeyType.AES,
             size,
             template={
-                Attribute.ID: bytes(object_id, "utf-8"),
+                Attribute.ID: bytes(object_id, 'utf-8'),
                 Attribute.LABEL: label
             },
             store=store
@@ -182,7 +206,7 @@ class Session:
             KeyType.RSA,
             size,
             label=label,
-            id=bytes(object_id, "utf-8"),
+            id=bytes(object_id, 'utf-8'),
             store=store
         )
 
@@ -202,7 +226,7 @@ class Session:
             KeyType.DSA,
             size,
             label=label,
-            id=bytes(object_id, "utf-8"),
+            id=bytes(object_id, 'utf-8'),
             store=store
         )
 
@@ -223,6 +247,135 @@ class Session:
         }, local=True)
         return parameters.generate_keypair(
             label=label,
-            id=bytes(object_id, "utf-8"),
+            id=bytes(object_id, 'utf-8'),
             store=store
+        )
+
+    def sign(self, object_class, label, object_id, mech_str, data):
+        """
+        Sign with a key.
+
+        @param object_class: The class of the key to sign with.
+        @param label: The label of the key to sign with.
+        @param object_id: The id of the key to sign with, as a string.
+        @param mech_str: The mechanism to sign with as a string.
+        @param data: The data to sign, as a string.
+        @return: The signed data as a hex string.
+        """
+        if mech_str not in Session.__sign_mechs:
+            raise ValueError('Invalid mechanism.')
+        key = self.p11.get_key(
+            object_class=object_class,
+            label=label,
+            id=bytes(object_id, 'utf-8')
+        )
+        return key.sign(
+            data, mechanism=Session.__sign_mechs[mech_str]
+        ).hex()
+
+    def verify(self,
+               object_class,
+               label,
+               object_id,
+               mech_str,
+               data,
+               signed_data):
+        """
+        Verify a signature.
+
+        @param object_class: The class of the key to sign with.
+        @param label: The label of the key to sign with.
+        @param object_id: The id of the key to sign with, as a string.
+        @param mech_str: The mechanism to sign with as a string.
+        @param data: The original data.
+        @param signed_data: The signed data as a hex string.
+        @return: True if the signed data is a valid signature, False
+                 otherwise.
+        """
+        if mech_str not in Session.__sign_mechs:
+            raise ValueError('Invalid mechanism.')
+        key = self.p11.get_key(
+            object_class=object_class,
+            label=label,
+            id=bytes(object_id, 'utf-8')
+        )
+        return key.verify(
+            data,
+            bytes.fromhex(signed_data),
+            mechanism=Session.__sign_mechs[mech_str]
+        )
+
+    def encrypt(self,
+                object_class,
+                label,
+                object_id,
+                mech_str,
+                data,
+                iv=None):
+        """
+        Encrypt data with the requested key.
+
+        @param object_class: The class of the key to sign with.
+        @param label: The label of the key to sign with.
+        @param object_id: The id of the key to sign with, as a string.
+        @param mech_str: The mechanism to sign with as a string.
+        @param data: The data to encrypt, as a string.
+        @return: The encrypted data as a hex string.
+        """
+        if mech_str not in Session.__crypt_mechs:
+            raise ValueError('Invalid mechanism.')
+        key = self.p11.get_key(
+            object_class=object_class,
+            label=label,
+            id=bytes(object_id, 'utf-8')
+        )
+
+        if iv is not None:
+            return key.encrypt(
+                data,
+                mechanism=Session.__crypt_mechs[mech_str],
+                mechanism_param=iv
+            ).hex()
+
+        return key.encrypt(
+            data,
+            mechanism=Session.__crypt_mechs[mech_str]
+        ).hex()
+
+    def decrypt(self,
+                object_class,
+                label,
+                object_id,
+                mech_str,
+                encrypted_data,
+                iv=None):
+        """
+        Decrypt data with the requested key.
+
+        @param object_class: The class of the key to sign with.
+        @param label: The label of the key to sign with.
+        @param object_id: The id of the key to sign with, as a string.
+        @param mech_str: The mechanism to sign with as a string.
+        @param encrypted_data: The encrypted data as a hex string.
+        @return: The decrypted data as a byte string.
+        """
+        if mech_str not in Session.__crypt_mechs:
+            raise ValueError('Invalid mechanism.')
+
+        key = self.p11.get_key(
+            object_class=object_class,
+            label=label,
+            id=bytes(object_id, 'utf-8')
+        )
+
+        if iv is not None:
+            return key.decrypt(
+                bytes.fromhex(encrypted_data),
+                mechanism=Session.__crypt_mechs[mech_str],
+                mechanism_param=iv
+            )
+
+        return key.decrypt(
+            bytes.fromhex(encrypted_data),
+            mechanism=Session.__crypt_mechs[mech_str]
         )
