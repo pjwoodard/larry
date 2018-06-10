@@ -54,10 +54,18 @@
     </div>
   </div>
 
-  <div v-if="crypter.encr_mechs() != null" class="row">
+  <div v-if="crypter.key_type() != 'RSA' && !crypter.IV_error" class="row">
     <div class="col-md-12">
      <label>IV</label>
      <input v-model="crypter.IV" type="text" class="form-control" placeholder="Enter ...">
+    </div>
+  </div>
+
+  <div v-if="crypter.key_type() != 'RSA' && crypter.IV_error" class="row has-error">
+    <div class="col-md-12">
+     <label>IV</label>
+     <input v-model="crypter.IV" type="text" class="form-control" placeholder="Enter ...">
+     <span class="help-block">IV must be 16 characters</span>
     </div>
   </div>
 
