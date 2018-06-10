@@ -73,7 +73,7 @@ def sign():
             request.vars.object_id,
             request.vars.mech,
             request.vars.data
-        ).hex()
+        )
 
     print(signed_data)
     return response.json(dict(signed_data=signed_data))
@@ -100,7 +100,7 @@ def verify():
             request.vars.object_id,
             request.vars.mech,
             request.vars.data,
-            bytes.fromhex(request.vars.signed_data)
+            request.vars.signed_data
         )
         print(success)
 
@@ -109,12 +109,58 @@ def verify():
 @auth.requires_login()
 @auth.requires_signature()
 def encrypt():
-    return response.json(dict(encrypted_file=None))
+    object_class = ObjectClass.PUBLIC_KEY
+    if request.vars.obj_type == "AES":
+        object_class = ObjectClass.SECRET_KEY
+
+    print(request.vars.obj_type)
+    print(request.vars.label)
+    print(request.vars.object_id)
+    print(request.vars.mech)
+    print(request.vars.data)
+    print(request.vars.iv)
+
+    encrypted_data = None
+    with Session() as session:
+        encrypted_data = session.encrypt(
+            ObjectClass.PUBLIC_KEY,
+            request.vars.label,
+            request.vars.object_id,
+            request.vars.mech,
+            request.vars.data,
+            request.vars.iv
+        )
+
+    print(encrypted_data)
+    return response.json(dict(encrypted_data=encrypted_data))
 
 @auth.requires_login()
 @auth.requires_signature()
 def decrypt():
-    return response.json(dict(decrypted_file=None))
+    object_class = ObjectClass.PUBLIC_KEY
+    if request.vars.obj_type == "AES":
+        object_class = ObjectClass.SECRET_KEY
+
+    print(request.vars.obj_type)
+    print(request.vars.label)
+    print(request.vars.object_id)
+    print(request.vars.mech)
+    print(request.vars.data)
+    print(request.vars.iv)
+
+    decrypted_data = None
+    with Session() as session:
+        decrypted_data = session.decrypt(
+            ObjectClass.PUBLIC_KEY,
+            request.vars.label,
+            request.vars.object_id,
+            request.vars.mech,
+            request.vars.data,
+            request.vars.iv
+        )
+
+    print(decrypted_data)
+    return response.json(dict(decrypted_data=decrypted_data))
 
 @auth.requires_login()
 @auth.requires_signature()
