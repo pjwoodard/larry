@@ -77,10 +77,20 @@ function Signer()
 
     this.sign = function() {
         if(this.validate_form()) {
-            console.log(this.data);
-            console.log(this.key_type());
-            console.log(this.sign_mech);
-            console.log(this.dgst_mech);
+            $.post(
+                sign_url,
+                {
+                    obj_type: this.key_type(),
+                    label: this.key.p11_label,
+                    object_id: this.key.p11_id,
+                    mech: this.sign_mech,
+                    data: this.data,
+                }, function (data) {
+                    download(data.signed_data, "signed_data.txt", "text");
+                }
+            );
+
+            this.reset();
         }
     };
 
