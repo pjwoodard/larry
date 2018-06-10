@@ -73,7 +73,7 @@ def sign():
             request.vars.object_id,
             request.vars.mech,
             request.vars.data
-        )
+        ).hex()
 
     print(signed_data)
     return response.json(dict(signed_data=signed_data))
@@ -85,6 +85,13 @@ def verify():
     if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
 
+    print(request.vars.obj_type)
+    print(request.vars.label)
+    print(request.vars.object_id)
+    print(request.vars.mech)
+    print(request.vars.data)
+    print(request.vars.signed_data)
+
     success = False
     with Session() as session:
         success = session.verify(
@@ -93,8 +100,9 @@ def verify():
             request.vars.object_id,
             request.vars.mech,
             request.vars.data,
-            signed_data
+            bytes.fromhex(request.vars.signed_data)
         )
+        print(success)
 
     return response.json(dict(is_valid_signature=success))
 

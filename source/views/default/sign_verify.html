@@ -57,6 +57,14 @@
       style="resize:vertical"
       v-model="signer.data">
     </textarea>
+    <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
+    <textarea
+      class="form-control"
+      placeholder="Enter data..."
+      rows="3"
+      style="resize:vertical"
+      v-model="signer.signed_data">
+    </textarea>
   </div>
 
   <div class="box-footer">

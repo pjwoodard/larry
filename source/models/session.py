@@ -46,6 +46,8 @@ class Session:
     """
 
     __mechs = {
+        "RSA_PKCS" : Mechanism.RSA_PKCS,
+        "RSA_X509" : Mechanism.RSA_X_509,
         "RSA_PKCS_PSS" : Mechanism.RSA_PKCS_PSS,
         "SHA1_RSA_PKCS" : Mechanism.SHA1_RSA_PKCS,
         "SHA224_RSA_PKCS" : Mechanism.SHA224_RSA_PKCS,
