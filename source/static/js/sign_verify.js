@@ -14,6 +14,24 @@ function Signer()
 
     // Member functions ------------------------------------------------
 
+    this.upload_data = function () {
+      console.log("uploadong");
+      fr = new FileReader();
+      fr.onload = function(e) {
+          APP.vue.signer.data = e.target.result;
+      };
+      fr.readAsText(event.target.files[0]);
+    };
+
+    this.upload_signed_data = function () {
+      console.log("uploadong");
+      fr = new FileReader();
+      fr.onload = function(e) {
+          APP.vue.signer.signed_data = e.target.result;
+      };
+      fr.readAsText(event.target.files[0]);
+    };
+
     this.reset = function() {
         this.key = null;
         this.sign_mech = null;
@@ -82,7 +100,6 @@ function Signer()
     };
 
     this.sign = function() {
-        // this.data = APP.vue.data;
         if(this.validate_form()) {
             $.post(
                 sign_url,

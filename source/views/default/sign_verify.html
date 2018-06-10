@@ -55,9 +55,14 @@
   </div>
 
   <div class="form-group">
-    <label>Data <strong></strong></label>
   <div v-if="signer.data_error == false" class="form-group">
     <label>Data <strong></strong></label>
+      <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+        <div class="center box__input">
+          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
+          <input v-on:change="signer.upload_data" style="display:none" class="box__file" type="file"id="file"/>
+       </div>
+      </form>
       <textarea
       class="form-control"
       placeholder="Enter data..."
@@ -66,6 +71,12 @@
       v-model="signer.data">
     </textarea>
     <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
+    <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+      <div class="center box__input">
+          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
+          <input v-on:change="signer.upload_signed_data" style="display:none" class="box__file" type="file"id="file"/>
+      </div>
+    </form>
     <textarea
       class="form-control"
       placeholder="Enter data..."
@@ -77,6 +88,12 @@
 
   <div v-if="signer.data_error == true" class="form-group has-error">
     <label>Data <strong></strong></label>
+     <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+      <div class="center box__input">
+          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
+          <input v-on:change="signer.upload_data" style="display:none" class="box__file" type="file"id="file"/>
+      </div>
+    </form>
     <textarea
       class="form-control"
       placeholder="Enter data..."
@@ -86,6 +103,12 @@
     </textarea>
 
     <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
+     <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+      <div class="center box__input">
+          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
+          <input v-on:change="signer.upload_signed_data" style="display:none" class="box__file" type="file"id="file"/>
+      </div>
+    </form>
     <textarea
       class="form-control"
       placeholder="Enter data..."
