@@ -139,15 +139,16 @@ def encrypt():
     print(request.vars.data)
     print(request.vars.iv)
 
+
     encrypted_data = None
     with Session() as session:
         encrypted_data = session.encrypt(
-            ObjectClass.PUBLIC_KEY,
+            object_class,
             request.vars.label,
             request.vars.object_id,
             request.vars.mech,
             request.vars.data,
-            request.vars.iv
+            bytes(request.vars.iv, "utf-8")
         )
 
     print(encrypted_data)
@@ -170,12 +171,12 @@ def decrypt():
     decrypted_data = None
     with Session() as session:
         decrypted_data = session.decrypt(
-            ObjectClass.PUBLIC_KEY,
+            object_class,
             request.vars.label,
             request.vars.object_id,
             request.vars.mech,
             request.vars.data,
-            request.vars.iv
+            bytes(request.vars.iv, "utf-8")
         )
 
     print(decrypted_data)
