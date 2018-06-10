@@ -6,8 +6,8 @@ var app = function () {
     Vue.config.silent = false; // show all warnings
 
     self.upload_file = function() {
-      var passedFile = event.target.files[0];
-      console.log(passedFile);
+      self.vue.data =  event.target.files[0];
+      console.log(self.vue.data);
     };
 
     self.get_user_keys = function() {
@@ -28,9 +28,10 @@ var app = function () {
         data: {
             key_generator: new KeyGenerator(),
             signer: new Signer(),
+            crypter: new Crypter(),
             user_keys: [],
             selected: null,
-
+            data: null,
         },
         // watch: {
         //     user_keys: self.get_user_keys,

@@ -22,6 +22,8 @@ const encr_mech_map = {
         AES_CGM: null
     },
 
+    DSA: {},
+
     RSA: {
         RSA_PKCS: null,
         RSA_PKCS_OAEP: null,
