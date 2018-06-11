@@ -65,17 +65,22 @@
         <div class="col-md-12">
          <label>IV</label>
          <input v-model="crypter.IV" type="text" class="form-control" placeholder="Enter ...">
+         <span class="help-block">IV must have 16 characters</span>
         </div>
-        <span class="help-block">IV must have 16 characters</span>
+
       </div>
   </div>
 
   <div v-if="crypter.data_error == false" class="form-group">
     <label>Data <strong></strong></label>
     <form class="box_upload" method="post" action="" enctype="multipart/form-data">
-      <div class="center box__input">
-          <label class="center" for="crypt_data"><i class="fa fa-upload" style="font-size:3em"></i></label>
+      <div v-if="crypter.is_uploading == false" class="center box__input">
+          <label v-if="crypter.data == null" class="center" for="crypt_data"><i class="fa fa-upload" style="font-size:3em"></i>  Click to upload a file.</label>
+          <label v-else class="center" for="crypt_data"><i class="fa fa-upload" style="font-size:3em"></i><i class="fa fa-check" style="font-size:3em"></i></label>
           <input v-on:change="crypter.upload_data()" style="display:none" class="box__file" type="file" id="crypt_data"/>
+      </div>
+      <div v-if="crypter.is_uploading" class="center">
+          <i class="fa fa-spinner fa-pulse" style="font-size:3em"></i>
       </div>
     </form>
   </div>
@@ -83,9 +88,13 @@
   <div v-if="crypter.data_error == true" class="form-group has-error">
     <label>Data <strong></strong></label>
     <form class="box_upload" method="post" action="" enctype="multipart/form-data">
-      <div class="center box__input">
-          <label class="center" for="crypt_data"><i class="fa fa-upload" style="font-size:3em"></i></label>
+      <div v-if="crypter.is_uploading == false" class="center box__input">
+          <label v-if="crypter.data == null" class="center" for="crypt_data"><i class="fa fa-upload" style="font-size:3em"></i>  Click to upload a file.</label>
+          <label v-else class="center" for="crypt_data"><i class="fa fa-upload" style="font-size:3em"></i><i class="fa fa-check" style="font-size:3em"></i></label>
           <input v-on:change="crypter.upload_data()" style="display:none" class="box__file" type="file" id="crypt_data"/>
+      </div>
+      <div v-if="crypter.is_uploading" class="center">
+          <i class="fa fa-spinner fa-pulse" style="font-size:3em"></i>
       </div>
     </form>
     <span class="help-block">A file is required for encrypting / decrypting.</span>
