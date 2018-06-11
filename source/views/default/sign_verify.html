@@ -55,46 +55,47 @@
   </div>
 
   <div class="form-group">
-  <div v-if="signer.data_error == false" class="form-group">
-    <label>Data <strong></strong></label>
+      <div v-if="signer.data_error == false" class="form-group">
+        <label>Data <strong></strong></label>
 
-      <form class="box_upload" method="post" action="" enctype="multipart/form-data">
-        <div class="center box__input">
-          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
-          <input v-on:change="signer.upload_data" style="display:none" class="box__file" type="file"id="file"/>
-       </div>
-      </form>
+          <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+            <div class="center box__input">
+              <label class="center" for="data"><i class="fa fa-upload" style="font-size:3em"></i></label>
+              <input v-on:change="signer.upload_data" style="display:none" class="box__file" type="file" id="data"/>
+           </div>
+          </form>
 
-    <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
-      
-    <form class="box_upload" method="post" action="" enctype="multipart/form-data">
-      <div class="center box__input">
-          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
-          <input v-on:change="signer.upload_signed_data" style="display:none" class="box__file" type="file"id="file"/>
+        <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
+
+        <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+          <div class="center box__input">
+              <label class="center" for="signed_data"><i class="fa fa-upload" style="font-size:3em"></i></label>
+              <input v-on:change="signer.upload_signed_data()" style="display:none" class="box__file" type="file" id="signed_data"/>
+          </div>
+        </form>
       </div>
-    </form>
-  </div>
 
-  <div v-if="signer.data_error == true" class="form-group has-error">
-    <label>Data <strong></strong></label>
+      <div v-if="signer.data_error == true" class="form-group has-error">
+        <label>Data <strong></strong></label>
 
-     <form class="box_upload" method="post" action="" enctype="multipart/form-data">
-      <div class="center box__input">
-          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
-          <input v-on:change="signer.upload_data" style="display:none" class="box__file" type="file"id="file"/>
+         <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+          <div class="center box__input">
+              <label class="center" for="data"><i class="fa fa-upload" style="font-size:3em"></i></label>
+              <input v-on:change="signer.upload_data()" style="display:none" class="box__file" type="file" id="data"/>
+          </div>
+        </form>
+
+        <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
+
+         <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+          <div class="center box__input">
+              <label class="center" for="signed_data"><i class="fa fa-upload" style="font-size:3em"></i></label>
+              <input v-on:change="signer.upload_signed_data()" style="display:none" class="box__file" type="file" id="signed_data"/>
+          </div>
+        </form>
+
+        <span class="help-block">A file is required for signing / verifying.</span>
       </div>
-    </form>
-
-    <label>Signed Data <strong>(copy and paste the hex from the dev console ¯\_(ツ)_/¯)</strong></label>
-
-     <form class="box_upload" method="post" action="" enctype="multipart/form-data">
-      <div class="center box__input">
-          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
-          <input v-on:change="signer.upload_signed_data" style="display:none" class="box__file" type="file"id="file"/>
-      </div>
-    </form>
-
-    <span class="help-block">A file is required for signing / verifying.</span>
   </div>
 
   <div class="box-footer">

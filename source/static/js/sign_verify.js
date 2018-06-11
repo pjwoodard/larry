@@ -15,19 +15,21 @@ function Signer()
     // Member functions ------------------------------------------------
 
     this.upload_data = function () {
-      console.log("uploadong");
-      fr = new FileReader();
+      console.log("uploading data in signer");
+      var fr = new FileReader();
       fr.onload = function(e) {
           APP.vue.signer.data = e.target.result;
+          console.log("uploaded signer data:", APP.vue.signer.data);
       };
       fr.readAsText(event.target.files[0]);
     };
 
     this.upload_signed_data = function () {
-      console.log("uploadong");
+      console.log("uploading signed data");
       fr = new FileReader();
       fr.onload = function(e) {
           APP.vue.signer.signed_data = e.target.result;
+          console.log("uploaded signed data: ", APP.vue.signer.signed_data);
       };
       fr.readAsText(event.target.files[0]);
     };
@@ -36,7 +38,7 @@ function Signer()
         this.key = null;
         this.sign_mech = null;
         this.data = "";
-        this.signed_data = "";
+        this.signed_data = null;
     };
 
     this.clear_errors = function() {
@@ -143,4 +145,4 @@ function Signer()
             this.reset();
         }
     };
-}
+};

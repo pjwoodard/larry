@@ -38,6 +38,7 @@ var app = function () {
             data: null,
         },
         methods: {
+            hahaha: function () {console.log("fuck webapps");},
             upload_file: self.upload_file,
             get_user_keys: self.get_user_keys,
         }
