@@ -161,7 +161,7 @@ def encrypt():
 @auth.requires_login()
 @auth.requires_signature()
 def decrypt():
-    object_class = ObjectClass.PUBLIC_KEY
+    object_class = ObjectClass.PRIVATE_KEY
     if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
 
