@@ -46,14 +46,6 @@ def destroy_key():
 
 @auth.requires_login()
 @auth.requires_signature()
-def destroy_everything():
-    with Session() as session:
-        session.destroy_all_objects()
-    db(db.user_keys).delete()
-    return "ok"
-
-@auth.requires_login()
-@auth.requires_signature()
 def sign():
     object_class = ObjectClass.PRIVATE_KEY
     if request.vars.obj_type == "AES":

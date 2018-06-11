@@ -39,11 +39,6 @@ var app = function () {
         },
         methods: {
             upload_file: self.upload_file,
-            destroy_everything: function() {
-                $.post(destroy_everything_url, {});
-                self.vue.user_keys = [];
-                self.vue.signer.key=null;
-            },
             get_user_keys: self.get_user_keys,
         }
     });
