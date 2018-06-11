@@ -51,12 +51,6 @@ def sign():
     if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
 
-    print(request.vars.obj_type)
-    print(request.vars.label)
-    print(request.vars.object_id)
-    print(request.vars.mech)
-    print(request.vars.data)
-
     signed_data = None
     with Session() as session:
         signed_data = session.sign(
@@ -67,26 +61,6 @@ def sign():
             request.vars.data,
         )
 
-        # # For testing until we have crypt form
-        # encrypted = session.encrypt(
-        #     ObjectClass.PUBLIC_KEY,
-        #     request.vars.label,
-        #     request.vars.object_id,
-        #     request.vars.mech,
-        #     request.vars.data
-        # )
-
-        # print(encrypted)
-        # print(session.decrypt(
-        #     ObjectClass.PRIVATE_KEY,
-        #     request.vars.label,
-        #     request.vars.object_id,
-        #     request.vars.mech,
-        #     encrypted
-        # ).decode('utf-8'))
-
-
-    print(signed_data)
     return response.json(dict(signed_data=signed_data))
 
 @auth.requires_login()

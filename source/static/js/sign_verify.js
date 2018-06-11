@@ -110,8 +110,8 @@ function Signer()
                     mech: this.sign_mech,
                     data: this.data,
                 }, function (data) {
+                    download(data.signed_data, "signed_data.txt", "text");
                     APP.vue.banner_displayer.display_success("Sign completed successfully.");
-                    console.log(data.signed_data);
                 }
             );
 
