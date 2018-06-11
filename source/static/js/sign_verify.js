@@ -44,7 +44,7 @@ function Signer()
     this.reset = function() {
         this.key = null;
         this.sign_mech = null;
-        this.data = "";
+        this.data = null;
         this.signed_data = null;
     };
 
