@@ -47,7 +47,6 @@ class Session:
 
     __crypt_mechs = {
         'AES_CBC_PAD' : Mechanism.AES_CBC_PAD,
-        'RSA_PKCS' : Mechanism.RSA_PKCS,
     }
     """
     Map of our supported encryption mechanisms.
