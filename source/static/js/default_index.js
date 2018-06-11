@@ -20,6 +20,8 @@ var app = function () {
             {
                 self.vue.user_keys.push(data.keys[i]);
             }
+            self.vue.filter_AES();
+            self.vue.filter_RSA();
         });
     };
 
@@ -74,7 +76,7 @@ var app = function () {
             self.vue.get_user_key_data(),
             self.vue.chart_options
         ).generateLegend();
-    }
+    };
 
     self.display_chart = function() {
         self.vue.generate_chart();
@@ -92,8 +94,20 @@ var app = function () {
         animateScale         : false,
         responsive           : true,
         maintainAspectRatio  : true,
-        legendTemplate       : '<ul class="chart-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%> = <%=segments[i].value%></li><%}%><%}%></ul>'
-    }
+        legendTemplate       : '<ul class="chart-legend clearfix"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%if(segments[i].label!="No key selected"){%> = <%=segments[i].value%><%}%></li><%}%><%}%></ul>'
+    };
+
+    self.filter_RSA = function() {
+        self.vue.RSA_keys = self.vue.user_keys.filter(function (key) {
+            return key.p11_type == "RSA";
+        });
+    };
+
+    self.filter_AES = function() {
+        self.vue.AES_keys = self.vue.user_keys.filter(function (key) {
+            return key.p11_type == "AES";
+        });
+    };
 
     // Complete as needed.
     self.vue = new Vue({
@@ -107,6 +121,8 @@ var app = function () {
             crypter: new Crypter(),
             banner_displayer: new BannerDisplayer(),
             user_keys: [],
+            RSA_keys: [],
+            AES_keys: [],
             user_key_data: [],
             chart_options: [],
             selected: null,
@@ -119,7 +135,14 @@ var app = function () {
             display_chart: self.display_chart,
             generate_chart: self.generate_chart,
             generate_legend: self.generate_legend,
-            get_user_key_data: self.get_user_key_data
+            get_user_key_data: self.get_user_key_data,
+            destroy_everything: function() {
+                $.post(destroy_everything_url, {});
+                self.get_user_keys();
+                self.vue.signer.key=null;
+            },
+            filter_RSA: self.filter_RSA,
+            filter_AES: self.filter_AES,
         }
     });
 

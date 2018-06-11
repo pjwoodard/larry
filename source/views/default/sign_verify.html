@@ -12,7 +12,7 @@
     <div v-if="signer.key_error == false" class="form-group">
       <div class="col-md-12">
         <label>Key</label>
-        <v-select v-model="signer.key" :options="user_keys" label="p11_label">
+        <v-select v-model="signer.key" :options="RSA_keys" label="p11_label">
         </v-select>
       </div>
     </div>
@@ -20,7 +20,7 @@
     <div v-if="signer.key_error == true" class="form-group has-error">
       <div class="col-md-12">
         <label>Key</label>
-        <v-select v-model="signer.key" :options="user_keys" label="p11_label">
+        <v-select v-model="signer.key" :options="RSA_keys" label="p11_label">
         </v-select>
         <span class="help-block">A key must be chosen before signing / verifying.</span>
       </div>
