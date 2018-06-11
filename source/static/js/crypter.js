@@ -59,7 +59,7 @@ function Crypter()
 
             }, function (data) {
                 APP.vue.banner_displayer.display_success("File encrypted successfully.");
-                console.log(data);
+                download(data.encrypted_data, "encrypted_data.txt");
             });
             this.reset();
         }
@@ -77,7 +77,7 @@ function Crypter()
 
             }, function (data) {
                 APP.vue.banner_displayer.display_success("File decrypted successfully.");
-                console.log(data);
+                download(data.decrypted_data, "decrypted_data.txt");
             });
             this.reset();
         }
