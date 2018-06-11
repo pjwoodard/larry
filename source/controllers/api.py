@@ -44,6 +44,14 @@ def generate_key():
 def destroy_key():
     return response.json(dict(success=False))
 
+@auth.requires_login()
+@auth.requires_signature()
+def destroy_everything():
+    with Session() as session:
+        session.destroy_all_objects()
+    db(db.user_keys).delete()
+    return "ok"
+
 def get_key_data(label):
     query = (db.user_keys.user_email == auth.user.email)
     query = query & (db.user_keys.p11_label == label)

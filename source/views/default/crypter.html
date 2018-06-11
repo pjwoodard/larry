@@ -12,7 +12,7 @@
       <div v-if="crypter.key_error == false" class="form-group">
         <div class="col-md-12">
           <label>Key</label>
-          <v-select v-model="crypter.key" :options="user_keys" label="p11_label"  >
+          <v-select v-model="crypter.key" :options="AES_keys" label="p11_label"  >
           </v-select>
         </div>
     </div>
@@ -20,7 +20,7 @@
     <div v-if="crypter.key_error == true" class="form-group has-error">
          <div class="col-md-12">
         <label>Key</label>
-        <v-select v-model="crypter.key" :options="user_keys" label="p11_label">
+        <v-select v-model="crypter.key" :options="AES_keys" label="p11_label">
         </v-select>
         <span class="help-block">A key must be chosen before encrypting / decrypting.</span>
       </div>
