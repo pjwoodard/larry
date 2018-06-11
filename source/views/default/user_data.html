@@ -18,13 +18,13 @@
       <div class="row">
         <label>Key</label>
         <v-select
-          v-model="pie.key"
-          v-on:change="pie.display()"
+          v-model="key_to_display"
+          v-on:change="display_chart()"
           :options="user_keys"
           label="p11_label">
         </v-select>
         <button
-          v-on:click="pie.display()"
+          v-on:click="display_chart()"
           type="submit" class="btn btn-primary btn-flat">
           Show
         </button>

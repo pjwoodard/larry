@@ -30,7 +30,6 @@ def generate_key():
                 p11_type=request.vars.type,
                 p11_size_or_curve=size_or_curve
             )
-            print(db(db.user_data).select())
         except:
             print("Error, unable to generate key.")
 
@@ -58,11 +57,10 @@ def inc_data_entry(label, entry):
     if data is not None:
         db(db.user_data.id == data.id).update(sign_count=data[entry]+1)
         success = True
-        print(data)
     return success
 
-@auth.requires_login()
-@auth.requires_signature()
+# @auth.requires_login()
+# @auth.requires_signature()
 def key_data():
     data = get_key_data(request.vars.label)
     key_data = dict()
@@ -120,13 +118,6 @@ def verify():
     if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
 
-    print(request.vars.obj_type)
-    print(request.vars.label)
-    print(request.vars.object_id)
-    print(request.vars.mech)
-    print(request.vars.data)
-    print(request.vars.signed_data)
-
     success = False
     with Session() as session:
         success = session.verify(
@@ -138,7 +129,6 @@ def verify():
             request.vars.signed_data
         )
         inc_data_entry(request.vars.label, "verify_count")
-        print(success)
 
     return response.json(dict(is_valid_signature=success))
 
@@ -148,14 +138,6 @@ def encrypt():
     object_class = ObjectClass.PUBLIC_KEY
     if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
-
-    print(request.vars.obj_type)
-    print(request.vars.label)
-    print(request.vars.object_id)
-    print(request.vars.mech)
-    print(request.vars.data)
-    print(request.vars.iv)
-
 
     encrypted_data = None
     with Session() as session:
@@ -169,7 +151,6 @@ def encrypt():
         )
         inc_data_entry(request.vars.label, "encrypt_count")
 
-    print(encrypted_data)
     return response.json(dict(encrypted_data=encrypted_data))
 
 @auth.requires_login()
@@ -178,13 +159,6 @@ def decrypt():
     object_class = ObjectClass.PUBLIC_KEY
     if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
-
-    print(request.vars.obj_type)
-    print(request.vars.label)
-    print(request.vars.object_id)
-    print(request.vars.mech)
-    print(request.vars.data)
-    print(request.vars.iv)
 
     decrypted_data = None
     with Session() as session:
@@ -198,7 +172,6 @@ def decrypt():
         )
         inc_data_entry(request.vars.label, "decrypt_count")
 
-    print(decrypted_data)
     return response.json(dict(decrypted_data=decrypted_data))
 
 @auth.requires_login()
