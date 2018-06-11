@@ -5,19 +5,28 @@
     <div v-if="banner_displayer.successful" class="alert alert-success alert-dismissible col-sm-12 col-md-12">
       <button v-on:click="banner_displayer.clear_banner()" type="button" id="alert_close" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       <h4><i class="icon fa fa-check"></i> Success!</h4>
-      ${banner_displayer.success_message} 
+      ${banner_displayer.success_message}
     </div>
     <div v-if="banner_displayer.error" class="alert alert-danger alert-dismissible col-sm-12 col-md-12">
       <button v-on:click="banner_displayer.clear_banner()" type="button" id="alert_close" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       <h4><i class="icon fa fa-ban"></i> Error!</h4>
-      ${banner_displayer.error_message} 
+      ${banner_displayer.error_message}
     </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="box">
+        {{include 'default/user_data.html'}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-sm-6 col-md-6">
       <div class="box">
         {{include 'default/generate_key.html'}}
       </div>
       <div class="box">
-          {{include 'default/crypter.html'}}
+        {{include 'default/crypter.html'}}
       </div>
     </div>
     <div class="col-sm-6 col-md-6">

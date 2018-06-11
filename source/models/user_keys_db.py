@@ -14,6 +14,8 @@ db.define_table(
     Field('p11_size_or_curve'),
     Field('p11_id', default=get_user_id_str()),
 
+    Field('data_id', default=db.user_data.insert()),
+
     Field('user_email', default=get_user_email()),
     Field('date_created', 'datetime', update=datetime.datetime.utcnow())
 )

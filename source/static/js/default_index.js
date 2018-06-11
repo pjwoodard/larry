@@ -29,6 +29,7 @@ var app = function () {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
+            pie: new UserData(),
             key_generator: new KeyGenerator(),
             signer: new Signer(),
             crypter: new Crypter(),
@@ -44,6 +45,7 @@ var app = function () {
     });
 
     self.vue.get_user_keys();
+    self.vue.pie.display();
     $("#vue-div").show();
 
     return self;
