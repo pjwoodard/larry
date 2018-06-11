@@ -44,8 +44,8 @@ function Crypter()
         this.clear_errors();
         this.key_error = this.key == null;
         this.data_error = this.data == null;
-        this.IV_error = (this.key_type() == null || 'AES') && this.IV == null;
-        return !(this.data_error || this.key_error);
+        this.IV_error = (this.key_type() == null || 'AES') && (this.IV == null || this.IV.length != 16);
+        return !(this.data_error || this.key_error || this.IV_error);
     };
     
     this.encrypt = function() {

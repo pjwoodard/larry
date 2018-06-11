@@ -54,13 +54,21 @@
     </div>
   </div>
 
-  <div v-if="crypter.key_type() == 'AES'" class="row">
-    <div class="col-md-12">
-     <label>IV</label>
-     <input v-model="crypter.IV" type="text" class="form-control" placeholder="Enter ...">
-    </div>
+  <div v-if="crypter.key_type() == 'AES'">
+      <div v-if="crypter.IV_error == false" class="row">
+        <div class="col-md-12">
+         <label>IV</label>
+         <input v-model="crypter.IV" type="text" class="form-control" placeholder="Enter ...">
+        </div>
+      </div>
+      <div v-if="crypter.IV_error == true" class="row has-error">
+        <div class="col-md-12">
+         <label>IV</label>
+         <input v-model="crypter.IV" type="text" class="form-control" placeholder="Enter ...">
+        </div>
+        <span class="help-block">IV must have 16 characters</span>
+      </div>
   </div>
-
 
   <div v-if="crypter.data_error == false" class="form-group">
     <label>Data <strong></strong></label>
