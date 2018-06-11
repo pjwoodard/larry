@@ -92,7 +92,7 @@ var app = function () {
         animateScale         : false,
         responsive           : true,
         maintainAspectRatio  : true,
-        legendTemplate       : '<ul class="chart-legend clearfix"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%if(segments[i].label!="No key selected"){%> = <%=segments[i].value%><%}%></li><%}%><%}%></ul>'
+        legendTemplate       : '<ul class="chart-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%> = <%=segments[i].value%></li><%}%><%}%></ul>'
     }
 
     // Complete as needed.
