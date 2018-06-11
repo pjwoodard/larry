@@ -18,9 +18,6 @@ var app = function () {
                 self.vue.user_keys.push(data.keys[i]);
             }
         });
-
-        self.vue.data.generate();
-        self.vue.data.legend();
     };
 
     // Complete as needed.
@@ -55,6 +52,7 @@ var app = function () {
     });
 
     self.vue.get_user_keys();
+    self.vue.data.display();
     $("#vue-div").show();
 
     return self;

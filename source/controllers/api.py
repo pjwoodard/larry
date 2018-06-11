@@ -63,12 +63,24 @@ def get_key_data(label):
 
 def inc_data_entry(label, entry):
     success = False
-    data = get_key_data(request.vars.label)
+    data = get_key_data(label)
     if data is not None:
         db(db.user_data.id == data.id).update(sign_count=data[entry]+1)
         success = True
         print(data)
     return success
+
+@auth.requires_login()
+@auth.requires_signature()
+def key_data():
+    data = get_key_data(request.vars.label)
+    key_data = dict()
+    if data is not None:
+        key_data["signs"] = data.sign_count
+        key_data["verifies"] = data.verify_count
+        key_data["encrypts"] = data.encrypt_count
+        key_data["decrypts"] = data.decrypt_count
+    return respons.json(key_data)
 
 @auth.requires_login()
 @auth.requires_signature()

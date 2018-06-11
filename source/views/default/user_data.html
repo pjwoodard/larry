@@ -8,7 +8,8 @@
   </div>
   <div class="box-body">
     <div class="col-sm-6">
-      <canvas id="pieChart" style="height:250px"></canvas>
+      <canvas v-if="data.key != null" id="pieChart" style="height:250px"></canvas>
+      <span v-else>No data</span>
     </div>
     <div class="col-sm-6">
       <div class="row">
