@@ -5,7 +5,6 @@ function UserData()
     this.chart = null;
 
     this.data = function () {
-        console.log("ello");
         if (this.key == null) return [{
             value    : 0,
             color    : '#f56954',
@@ -91,6 +90,7 @@ function UserData()
     };
 
     this.display = function() {
+        console.log("display");
         this.generate();
         this.legend();
     };

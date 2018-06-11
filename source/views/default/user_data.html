@@ -1,6 +1,6 @@
-<div class="box box-danger">
+<div class="box">
   <div class="box-header with-border">
-    <h3 class="box-title">Info</h3>
+    <b class="box-title">Data</b>
     <div class="box-tools pull-right">
       <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
       </button>
@@ -8,13 +8,13 @@
   </div>
   <div class="box-body">
     <div class="col-sm-6">
-      <canvas v-if="data.key != null" id="pieChart" style="height:250px"></canvas>
+      <canvas v-if="pie.key != null" id="pieChart" style="height:250px"></canvas>
       <span v-else>No data</span>
     </div>
     <div class="col-sm-6">
       <div class="row">
         <label>Key</label>
-        <v-select v-model="data.key" :options="user_keys" label="p11_label">
+        <v-select v-model="pie.key" :options="user_keys" label="p11_label">
         </v-select>
       </div>
       <div class="row">

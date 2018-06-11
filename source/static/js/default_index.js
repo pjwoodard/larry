@@ -6,8 +6,11 @@ var app = function () {
     Vue.config.silent = false; // show all warnings
 
     self.upload_file = function() {
-      var passedFile = event.target.files[0];
-      console.log(passedFile);
+      fr = new FileReader();
+      fr.onload = function(e) {
+          APP.vue.data = e.target.result;
+      };
+      fr.readAsText(event.target.files[0]);
     };
 
     self.get_user_keys = function() {
@@ -26,33 +29,23 @@ var app = function () {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-            data: new UserData(),
+            pie: new UserData(),
             key_generator: new KeyGenerator(),
             signer: new Signer(),
+            crypter: new Crypter(),
+            banner_displayer: new BannerDisplayer(),
             user_keys: [],
             selected: null,
-
+            data: null,
         },
         methods: {
             upload_file: self.upload_file,
-            destroy_everything: function() {
-                $.post(destroy_everything_url, {});
-                self.vue.user_keys = [];
-                self.vue.signer.key=null;
-            },
             get_user_keys: self.get_user_keys,
-        },
-        computed: {
-            available_size_or_curves() {
-                return this.key_generator.key_type
-                    ? this.key_generator.key_type.sizes
-                    : false;
-            },
         }
     });
 
     self.vue.get_user_keys();
-    self.vue.data.display();
+    self.vue.pie.display();
     $("#vue-div").show();
 
     return self;

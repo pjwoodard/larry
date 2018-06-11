@@ -89,12 +89,6 @@ def sign():
     if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
 
-    print(request.vars.obj_type)
-    print(request.vars.label)
-    print(request.vars.object_id)
-    print(request.vars.mech)
-    print(request.vars.data)
-
     signed_data = None
     with Session() as session:
         signed_data = session.sign(
@@ -171,15 +165,16 @@ def encrypt():
     print(request.vars.data)
     print(request.vars.iv)
 
+
     encrypted_data = None
     with Session() as session:
         encrypted_data = session.encrypt(
-            ObjectClass.PUBLIC_KEY,
+            object_class,
             request.vars.label,
             request.vars.object_id,
             request.vars.mech,
             request.vars.data,
-            request.vars.iv
+            bytes(request.vars.iv, "utf-8")
         )
         inc_data_entry(request.vars.label, "encrypt_count")
 
@@ -203,12 +198,12 @@ def decrypt():
     decrypted_data = None
     with Session() as session:
         decrypted_data = session.decrypt(
-            ObjectClass.PUBLIC_KEY,
+            object_class,
             request.vars.label,
             request.vars.object_id,
             request.vars.mech,
             request.vars.data,
-            request.vars.iv
+            bytes(request.vars.iv, "utf-8")
         )
         inc_data_entry(request.vars.label, "decrypt_count")
 

@@ -14,12 +14,30 @@ function Signer()
 
     // Member functions ------------------------------------------------
 
+    this.upload_data = function () {
+      console.log("uploadong");
+      fr = new FileReader();
+      fr.onload = function(e) {
+          APP.vue.signer.data = e.target.result;
+      };
+      fr.readAsText(event.target.files[0]);
+    };
+
+    this.upload_signed_data = function () {
+      console.log("uploadong");
+      fr = new FileReader();
+      fr.onload = function(e) {
+          APP.vue.signer.signed_data = e.target.result;
+      };
+      fr.readAsText(event.target.files[0]);
+    };
+
     this.reset = function() {
         this.key = null;
         this.sign_mech = null;
         this.data = "";
         this.signed_data = "";
-    }
+    };
 
     this.clear_errors = function() {
         this.key_error = false;
@@ -39,7 +57,6 @@ function Signer()
             this.data_error = true;
             validated = false;
         }
-
         return validated;
     };
 
@@ -93,7 +110,8 @@ function Signer()
                     mech: this.sign_mech,
                     data: this.data,
                 }, function (data) {
-                    console.log(data.signed_data);
+                    download(data.signed_data, "signed_data.txt", "text");
+                    APP.vue.banner_displayer.display_success("Sign completed successfully.");
                 }
             );
 
@@ -114,7 +132,11 @@ function Signer()
                     data: this.data,
                     signed_data: this.signed_data,
                 }, function (data) {
-                    console.log(data.is_valid_signature);
+                    if(data.is_valid_signature == true) {
+                        APP.vue.banner_displayer.display_success("Verify completed successfully.");
+                    } else if(data.is_valid_signature == false) {
+                        APP.vue.banner_displayer.display_error("Verify did not complete succesfully.");
+                    }
                 }
             );
 
