@@ -30,7 +30,7 @@ function UserData()
         segmentShowStroke    : true,
         segmentStrokeColor   : '#fff',
         segmentStrokeWidth   : 2,
-        percentageInnerCutout: 20, // This is 0 for Pie charts
+        percentageInnerCutout: 35,
         animationSteps       : 100,
         animationEasing      : 'easeOutBounce',
         animateRotate        : true,
@@ -40,7 +40,15 @@ function UserData()
         legendTemplate       : '<ul class="chart-legend clearfix"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%> = <%=segments[i].value%><%}%></li><%}%></ul>'
     };
 
-    this.generate = function () {
-        return this.chart.Doughnut(this.data(), this.options).generateLegend();
+    this.generate = function() {
+        this.chart = new Chart($('#pieChart').get(0).getContext('2d'));
+    };
+
+    this.legend = function () {
+        document.getElementById("data-legend").innerHTML =
+            this.chart.Doughnut(
+                this.data(),
+                this.options
+            ).generateLegend();
     };
 }

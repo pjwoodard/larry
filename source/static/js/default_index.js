@@ -18,8 +18,9 @@ var app = function () {
                 self.vue.user_keys.push(data.keys[i]);
             }
         });
-        self.vue.data.chart = new Chart($('#pieChart').get(0).getContext('2d'));
-        document.getElementById("data-legend").innerHTML = self.vue.data.generate();
+
+        self.vue.data.generate();
+        self.vue.data.legend();
     };
 
     // Complete as needed.
