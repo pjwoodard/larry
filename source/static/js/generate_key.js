@@ -51,8 +51,10 @@ function KeyGenerator() {
                     type: this.key_type.type,
                     size: this.key_size
                 }, function (key) {
-                    if (key != null)
+                    if (key != null) {
                         APP.vue.user_keys.push(key);
+                        APP.vue.banner_displayer.display_success("Key generated successfully.");
+                    }
                 }
             );
             this.key_label = null;
