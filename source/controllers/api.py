@@ -30,7 +30,6 @@ def generate_key():
                 p11_type=request.vars.type,
                 p11_size_or_curve=size_or_curve
             )
-            print(db(db.user_data).select())
         except:
             print("Error, unable to generate key.")
 
@@ -52,17 +51,8 @@ def get_key_data(label):
     query = (db.user_data.id == key.data_id)
     return None if key is None else db(query).select().first()
 
-def inc_data_entry(label, entry):
-    success = False
-    data = get_key_data(label)
-    if data is not None:
-        db(db.user_data.id == data.id).update(sign_count=data[entry]+1)
-        success = True
-        print(data)
-    return success
-
-@auth.requires_login()
-@auth.requires_signature()
+# @auth.requires_login()
+# @auth.requires_signature()
 def key_data():
     data = get_key_data(request.vars.label)
     key_data = dict()
@@ -108,7 +98,12 @@ def sign():
         #     encrypted
         # ).decode('utf-8'))
 
-        inc_data_entry(request.vars.label, "sign_count")
+
+    data = get_key_data(request.vars.label)
+    if data is not None:
+        db(db.user_data.id == data.id).update(
+            sign_count=data["sign_count"]+1
+        )
 
     print(signed_data)
     return response.json(dict(signed_data=signed_data))
@@ -120,13 +115,6 @@ def verify():
     if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
 
-    print(request.vars.obj_type)
-    print(request.vars.label)
-    print(request.vars.object_id)
-    print(request.vars.mech)
-    print(request.vars.data)
-    print(request.vars.signed_data)
-
     success = False
     with Session() as session:
         success = session.verify(
@@ -137,8 +125,11 @@ def verify():
             request.vars.data,
             request.vars.signed_data
         )
-        inc_data_entry(request.vars.label, "verify_count")
-        print(success)
+        data = get_key_data(request.vars.label)
+        if data is not None:
+            db(db.user_data.id == data.id).update(
+                verify_count=data["verify_count"]+1
+            )
 
     return response.json(dict(is_valid_signature=success))
 
@@ -148,14 +139,6 @@ def encrypt():
     object_class = ObjectClass.PUBLIC_KEY
     if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
-
-    print(request.vars.obj_type)
-    print(request.vars.label)
-    print(request.vars.object_id)
-    print(request.vars.mech)
-    print(request.vars.data)
-    print(request.vars.iv)
-
 
     encrypted_data = None
     with Session() as session:
@@ -167,9 +150,12 @@ def encrypt():
             request.vars.data,
             bytes(request.vars.iv, "utf-8")
         )
-        inc_data_entry(request.vars.label, "encrypt_count")
+        data = get_key_data(request.vars.label)
+        if data is not None:
+            db(db.user_data.id == data.id).update(
+                encrypt_count=data["encrypt_count"]+1
+            )
 
-    print(encrypted_data)
     return response.json(dict(encrypted_data=encrypted_data))
 
 @auth.requires_login()
@@ -178,13 +164,6 @@ def decrypt():
     object_class = ObjectClass.PUBLIC_KEY
     if request.vars.obj_type == "AES":
         object_class = ObjectClass.SECRET_KEY
-
-    print(request.vars.obj_type)
-    print(request.vars.label)
-    print(request.vars.object_id)
-    print(request.vars.mech)
-    print(request.vars.data)
-    print(request.vars.iv)
 
     decrypted_data = None
     with Session() as session:
@@ -196,9 +175,12 @@ def decrypt():
             request.vars.data,
             bytes(request.vars.iv, "utf-8")
         )
-        inc_data_entry(request.vars.label, "decrypt_count")
+        data = get_key_data(request.vars.label)
+        if data is not None:
+            db(db.user_data.id == data.id).update(
+                decrypt_count=data["decrypt_count"]+1
+            )
 
-    print(decrypted_data)
     return response.json(dict(decrypted_data=decrypted_data))
 
 @auth.requires_login()

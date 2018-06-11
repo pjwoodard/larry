@@ -72,7 +72,6 @@ function Signer()
     this.key_type = function() {
         if (this.key != null)
         {
-            console.log(this.key.p11_type);
             return String(this.key.p11_type);
         }
 
