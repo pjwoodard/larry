@@ -30,6 +30,7 @@ def generate_key():
                 p11_type=request.vars.type,
                 p11_size_or_curve=size_or_curve
             )
+            print(db(db.user_data).select())
         except:
             print("Error, unable to generate key.")
 
@@ -43,6 +44,34 @@ def generate_key():
 @auth.requires_signature()
 def destroy_key():
     return response.json(dict(success=False))
+
+def get_key_data(label):
+    query = (db.user_keys.user_email == auth.user.email)
+    query = query & (db.user_keys.p11_label == label)
+    key = db(query).select().first()
+    query = (db.user_data.id == key.data_id)
+    return None if key is None else db(query).select().first()
+
+def inc_data_entry(label, entry):
+    success = False
+    data = get_key_data(label)
+    if data is not None:
+        db(db.user_data.id == data.id).update(sign_count=data[entry]+1)
+        success = True
+        print(data)
+    return success
+
+@auth.requires_login()
+@auth.requires_signature()
+def key_data():
+    data = get_key_data(request.vars.label)
+    key_data = dict()
+    if data is not None:
+        key_data["signs"] = data.sign_count
+        key_data["verifies"] = data.verify_count
+        key_data["encrypts"] = data.encrypt_count
+        key_data["decrypts"] = data.decrypt_count
+    return response.json(key_data)
 
 @auth.requires_login()
 @auth.requires_signature()
@@ -61,6 +90,27 @@ def sign():
             request.vars.data,
         )
 
+        # # For testing until we have crypt form
+        # encrypted = session.encrypt(
+        #     ObjectClass.PUBLIC_KEY,
+        #     request.vars.label,
+        #     request.vars.object_id,
+        #     request.vars.mech,
+        #     request.vars.data
+        # )
+
+        # print(encrypted)
+        # print(session.decrypt(
+        #     ObjectClass.PRIVATE_KEY,
+        #     request.vars.label,
+        #     request.vars.object_id,
+        #     request.vars.mech,
+        #     encrypted
+        # ).decode('utf-8'))
+
+        inc_data_entry(request.vars.label, "sign_count")
+
+    print(signed_data)
     return response.json(dict(signed_data=signed_data))
 
 @auth.requires_login()
@@ -87,6 +137,7 @@ def verify():
             request.vars.data,
             request.vars.signed_data
         )
+        inc_data_entry(request.vars.label, "verify_count")
         print(success)
 
     return response.json(dict(is_valid_signature=success))
@@ -116,6 +167,7 @@ def encrypt():
             request.vars.data,
             bytes(request.vars.iv, "utf-8")
         )
+        inc_data_entry(request.vars.label, "encrypt_count")
 
     print(encrypted_data)
     return response.json(dict(encrypted_data=encrypted_data))
@@ -144,6 +196,7 @@ def decrypt():
             request.vars.data,
             bytes(request.vars.iv, "utf-8")
         )
+        inc_data_entry(request.vars.label, "decrypt_count")
 
     print(decrypted_data)
     return response.json(dict(decrypted_data=decrypted_data))
