@@ -12,22 +12,31 @@ function Signer()
     this.key_error = false;
     this.data_error = false;
 
+    this.is_uploading_data = false;
+    this.is_uploading_signed_data = false;
+
     // Member functions ------------------------------------------------
 
     this.upload_data = function () {
-      console.log("uploadong");
-      fr = new FileReader();
+      this.is_uploading_data = true;
+      console.log("uploading data in signer");
+      var fr = new FileReader();
       fr.onload = function(e) {
           APP.vue.signer.data = e.target.result;
+          console.log("uploaded signer data:", APP.vue.signer.data);
+          APP.vue.signer.is_uploading_data = false;
       };
       fr.readAsText(event.target.files[0]);
     };
 
     this.upload_signed_data = function () {
-      console.log("uploadong");
+      this.is_uploading_signed_data = true;
+      console.log("uploading signed data");
       fr = new FileReader();
       fr.onload = function(e) {
           APP.vue.signer.signed_data = e.target.result;
+          console.log("uploaded signed data: ", APP.vue.signer.signed_data);
+          APP.vue.signer.is_uploading_signed_data = false;
       };
       fr.readAsText(event.target.files[0]);
     };
@@ -36,7 +45,7 @@ function Signer()
         this.key = null;
         this.sign_mech = null;
         this.data = "";
-        this.signed_data = "";
+        this.signed_data = null;
     };
 
     this.clear_errors = function() {
@@ -142,4 +151,4 @@ function Signer()
             this.reset();
         }
     };
-}
+};

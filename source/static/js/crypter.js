@@ -11,13 +11,18 @@ function Crypter()
     this.data_error = false;
     this.IV_error = false;
 
+    this.is_uploading = false;
+
     // Member functions ------------------------------------------------
 
     this.upload_data = function () {
-      console.log("uploadong");
-      fr = new FileReader();
+      console.log("uploadong in crypt");
+      this.is_uploading = true;
+      var fr = new FileReader();
       fr.onload = function(e) {
           APP.vue.crypter.data = e.target.result;
+          console.log("uploaded: ", APP.vue.crypter.data);
+          APP.vue.crypter.is_uploading = false;
       };
       fr.readAsText(event.target.files[0]);
     };
@@ -32,7 +37,7 @@ function Crypter()
         this.key_error = false;
         this.data_error = false;
         this.IV_error = false;
-}
+};
 
     this.clear_errors = function() {
         this.key_error = false;
@@ -44,7 +49,11 @@ function Crypter()
         this.key_error = this.key == null;
         this.data_error = this.data == null;
         this.IV_error = this.IV == null || this.IV.length != 16;
-        return !(this.data_error || this.key_error);
+         if (this.key_type() != 'AES') {
+            this.IV_error = false;
+            this.IV = null;
+        }
+        return !(this.data_error || this.key_error || this.IV_error);
     };
     
     this.encrypt = function() {
