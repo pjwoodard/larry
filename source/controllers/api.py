@@ -51,14 +51,6 @@ def get_key_data(label):
     query = (db.user_data.id == key.data_id)
     return None if key is None else db(query).select().first()
 
-def inc_data_entry(label, entry):
-    success = False
-    data = get_key_data(label)
-    if data is not None:
-        db(db.user_data.id == data.id).update(sign_count=data[entry]+1)
-        success = True
-    return success
-
 # @auth.requires_login()
 # @auth.requires_signature()
 def key_data():
@@ -106,7 +98,12 @@ def sign():
         #     encrypted
         # ).decode('utf-8'))
 
-        inc_data_entry(request.vars.label, "sign_count")
+
+    data = get_key_data(request.vars.label)
+    if data is not None:
+        db(db.user_data.id == data.id).update(
+            sign_count=data["sign_count"]+1
+        )
 
     print(signed_data)
     return response.json(dict(signed_data=signed_data))
@@ -128,7 +125,11 @@ def verify():
             request.vars.data,
             request.vars.signed_data
         )
-        inc_data_entry(request.vars.label, "verify_count")
+        data = get_key_data(request.vars.label)
+        if data is not None:
+            db(db.user_data.id == data.id).update(
+                verify_count=data["verify_count"]+1
+            )
 
     return response.json(dict(is_valid_signature=success))
 
@@ -149,7 +150,11 @@ def encrypt():
             request.vars.data,
             bytes(request.vars.iv, "utf-8")
         )
-        inc_data_entry(request.vars.label, "encrypt_count")
+        data = get_key_data(request.vars.label)
+        if data is not None:
+            db(db.user_data.id == data.id).update(
+                encrypt_count=data["encrypt_count"]+1
+            )
 
     return response.json(dict(encrypted_data=encrypted_data))
 
@@ -170,7 +175,11 @@ def decrypt():
             request.vars.data,
             bytes(request.vars.iv, "utf-8")
         )
-        inc_data_entry(request.vars.label, "decrypt_count")
+        data = get_key_data(request.vars.label)
+        if data is not None:
+            db(db.user_data.id == data.id).update(
+                decrypt_count=data["decrypt_count"]+1
+            )
 
     return response.json(dict(decrypted_data=decrypted_data))
 

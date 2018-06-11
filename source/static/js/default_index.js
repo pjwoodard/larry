@@ -31,10 +31,9 @@ var app = function () {
                 url: key_data_url,
                 data: { label: self.vue.key_to_display.p11_label },
                 async: false
-            }).done(
-                function (data) {
-                    self.vue.user_key_data = data;
-                });
+            }).done(function (data) {
+                self.vue.user_key_data = data;
+            });
 
             console.log(self.vue.user_key_data.signs);
             console.log(self.vue.user_key_data.verifies);
