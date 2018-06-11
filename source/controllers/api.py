@@ -80,7 +80,7 @@ def key_data():
         key_data["verifies"] = data.verify_count
         key_data["encrypts"] = data.encrypt_count
         key_data["decrypts"] = data.decrypt_count
-    return respons.json(key_data)
+    return response.json(key_data)
 
 @auth.requires_login()
 @auth.requires_signature()

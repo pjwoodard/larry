@@ -2,23 +2,39 @@
   <div class="box-header with-border">
     <b class="box-title">Data</b>
     <div class="box-tools pull-right">
-      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+      <button
+        type="button"
+        class="btn btn-box-tool"
+        data-widget="collapse">
+        <i class="fa fa-minus"></i>
       </button>
     </div>
   </div>
   <div class="box-body">
     <div class="col-sm-6">
-      <canvas v-if="pie.key != null" id="pieChart" style="height:250px"></canvas>
-      <span v-else>No data</span>
+      <canvas id="pieChart" style="height:250px"></canvas>
     </div>
     <div class="col-sm-6">
       <div class="row">
         <label>Key</label>
-        <v-select v-model="pie.key" :options="user_keys" label="p11_label">
+        <v-select
+          v-model="pie.key"
+          v-on:change="pie.display()"
+          :options="user_keys"
+          label="p11_label">
         </v-select>
+        <button
+          v-on:click="pie.display()"
+          type="submit" class="btn btn-primary btn-flat">
+          Show
+        </button>
       </div>
       <div class="row">
-        <div id="data-legend" class="col-sm-4" style="padding-top:2em"></div>
+        <div
+          id="data-legend"
+          class="col-sm-4"
+          style="padding-top:2em">
+        </div>
       </div>
     </div>
   </div>

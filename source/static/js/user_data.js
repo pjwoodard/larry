@@ -6,31 +6,17 @@ function UserData()
 
     this.data = function () {
         if (this.key == null) return [{
-            value    : 0,
+            value    : 1,
             color    : '#f56954',
             highlight: '#f56954',
-            label    : 'Signs'
-        }, {
-            value    : 0,
-            color    : '#00a65a',
-            highlight: '#00a65a',
-            label    : 'Verify'
-        }, {
-            value    : 0,
-            color    : '#f39c12',
-            highlight: '#f39c12',
-            label    : 'Encrypts'
-        }, {
-            value    : 0,
-            color    : '#00c0ef',
-            highlight: '#00c0ef',
-            label    : 'Decrypts'
+            label    : 'No key selected'
         }];
 
         return $.post(
             key_data_url,
-            { label : key.label },
+            { label : this.key.p11_label },
             function (data) {
+                console.log(data);
                 return [{
                     value    : data.signs,
                     color    : '#f56954',
@@ -68,29 +54,23 @@ function UserData()
         animateScale         : false,
         responsive           : true,
         maintainAspectRatio  : true,
-        legendTemplate       : '<ul class="chart-legend clearfix"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%> = <%=segments[i].value%><%}%></li><%}%></ul>'
+        legendTemplate       : '<ul class="chart-legend clearfix"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%if(segments[i].label!="No key selected"){%> = <%=segments[i].value%><%}%></li><%}%><%}%></ul>'
     };
 
     this.generate = function() {
-        if (this.key != null)
-        {
-            this.chart = new Chart($('#pieChart').get(0).getContext('2d'));
-        }
+        this.chart = new Chart($('#pieChart').get(0).getContext('2d'));
     };
 
     this.legend = function() {
-        if (this.key != null)
-        {
-            document.getElementById("data-legend").innerHTML =
-                this.chart.Doughnut(
-                    this.data(),
-                    this.options
-                ).generateLegend();
-        }
+        document.getElementById("data-legend").innerHTML =
+            this.chart.Doughnut(
+                this.data(),
+                this.options
+            ).generateLegend();
     };
 
     this.display = function() {
-        console.log("display");
+        console.log(this);
         this.generate();
         this.legend();
     };
