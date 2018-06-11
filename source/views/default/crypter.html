@@ -1,0 +1,111 @@
+<section class="box-header with-border">
+  <b class="box-title">Encrypt/Decrypt</b>
+  <div class="box-tools pull-right">
+    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+      <i class="fa fa-minus"></i>
+    </button>
+  </div>
+</section>
+
+<div class="box-body">
+  <div class="row">
+      <div v-if="crypter.key_error == false" class="form-group">
+        <div class="col-md-12">
+          <label>Key</label>
+          <v-select v-model="crypter.key" :options="user_keys" label="p11_label"  >
+          </v-select>
+        </div>
+    </div>
+
+    <div v-if="crypter.key_error == true" class="form-group has-error">
+         <div class="col-md-12">
+        <label>Key</label>
+        <v-select v-model="crypter.key" :options="user_keys" label="p11_label">
+        </v-select>
+        <span class="help-block">A key must be chosen before encrypting / decrypting.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <div class="col-md-3">
+        <label>Key size/curve:</label>
+        <div v-if="crypter.key">${crypter.key.p11_size_or_curve}</div>
+        <div v-else>-</div>
+      </div>
+      <div class="col-md-3">
+        <label>Key type:</label>
+        <div v-if="crypter.key">${crypter.key.p11_type}</div>
+        <div v-else>-</div>
+      </div>
+    </div>
+  </div>
+
+  <div v-if="crypter.encr_mechs() != null" class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Encryption mechanism</label>
+        <v-select
+          v-model="crypter.encr_mech"
+          :options="crypter.encr_mechs()">
+        </v-select>
+      </div>
+    </div>
+  </div>
+
+  <div v-if="crypter.key_type() != 'RSA' && !crypter.IV_error" class="row">
+    <div class="col-md-12">
+     <label>IV</label>
+     <input v-model="crypter.IV" type="text" class="form-control" placeholder="Enter ...">
+    </div>
+  </div>
+
+  <div v-if="crypter.key_type() != 'RSA' && crypter.IV_error" class="row has-error">
+    <div class="col-md-12">
+     <label>IV</label>
+     <input v-model="crypter.IV" type="text" class="form-control" placeholder="Enter ...">
+     <span class="help-block">IV must be 16 characters</span>
+    </div>
+  </div>
+
+
+
+  <div v-if="crypter.data_error == false" class="form-group">
+    <label>Data <strong></strong></label>
+    <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+      <div class="center box__input">
+          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
+          <input v-on:change="crypter.upload_data()" style="display:none" class="box__file" type="file"id="file"/>
+      </div>
+    </form>
+  </div>
+
+  <div v-if="crypter.data_error == true" class="form-group has-error">
+    <label>Data <strong></strong></label>
+    <form class="box_upload" method="post" action="" enctype="multipart/form-data">
+      <div class="center box__input">
+          <label class="center" for="file"><i class="fa fa-upload" style="font-size:3em"></i></label>
+          <input v-on:change="crypter.upload_data()" style="display:none" class="box__file" type="file"id="file"/>
+      </div>
+    </form>
+    <span class="help-block">A file is required for encrypting / decrypting.</span>
+  </div>
+
+  <div class="box-footer">
+    <div class="pull-left">
+      <button
+        v-on:click="crypter.encrypt()"
+        type="submit" class="btn btn-primary btn-flat">
+        Encrypt
+      </button>
+    </div>
+    <div class="pull-right">
+      <button
+        v-on:click="crypter.decrypt()"
+        type="submit" class="btn btn-primary btn-flat">
+        Decrypt
+      </button>
+    </div>
+  </div>
+</div>

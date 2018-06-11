@@ -9,18 +9,10 @@ const all_dgsts = [
 
 const encr_mech_map = {
     AES: {
-        AES_ECB: null,
-        AES_CBC: null,
         AES_CBC_PAD: null,
-        AES_OFB: null,
-        AES_CFB_8: null,
-        AES_CFB_64: null,
-        AES_CFB_128: null,
-        AES_CTS: null,
-        AES_CTR: null,
-        AES_GCM: null,
-        AES_CGM: null
     },
+
+    DSA: {},
 
     RSA: {
         RSA_PKCS: null,
