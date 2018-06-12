@@ -20,8 +20,7 @@ var app = function () {
             {
                 self.vue.user_keys.push(data.keys[i]);
             }
-            self.vue.filter_AES();
-            self.vue.filter_RSA();
+            self.vue.filter_keys();
         });
     };
 
@@ -103,6 +102,11 @@ var app = function () {
         });
     };
 
+    self.filter_keys = function() {
+        self.filter_RSA();
+        self.filter_AES();
+    };
+
     self.filter_AES = function() {
         self.vue.AES_keys = self.vue.user_keys.filter(function (key) {
             return key.p11_type == "AES";
@@ -143,6 +147,7 @@ var app = function () {
             },
             filter_RSA: self.filter_RSA,
             filter_AES: self.filter_AES,
+            filter_keys: self.filter_keys,
         }
     });
 

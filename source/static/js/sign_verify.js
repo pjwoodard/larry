@@ -23,7 +23,6 @@ function Signer()
       var fr = new FileReader();
       fr.onload = function(e) {
           APP.vue.signer.data = e.target.result;
-          console.log("uploaded signer data:", APP.vue.signer.data);
           APP.vue.signer.is_uploading_data = false;
       };
       fr.readAsText(event.target.files[0]);
@@ -35,7 +34,6 @@ function Signer()
       fr = new FileReader();
       fr.onload = function(e) {
           APP.vue.signer.signed_data = e.target.result;
-          console.log("uploaded signed data: ", APP.vue.signer.signed_data);
           APP.vue.signer.is_uploading_signed_data = false;
       };
       fr.readAsText(event.target.files[0]);
